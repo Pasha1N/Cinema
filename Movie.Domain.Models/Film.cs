@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Movie.Domain.Models
 {
-    public class Movie
+    public class Film
     {
         private IEnumerable<Actor> actors;
         private Producer producer;
-        private ReleaseDate releaseDate;
+        private DateTime releaseDate;
+        private string name;
+        private string language;
 
-        public Movie(Producer producer, ReleaseDate releaseDate, IEnumerable<Actor> actors)
+        public Film(Producer producer, DateTime releaseDate, IEnumerable<Actor> actors)
         {
             this.producer = producer;
             this.releaseDate = releaseDate;
@@ -21,6 +23,8 @@ namespace Movie.Domain.Models
 
         public IEnumerable<Actor> Actors => actors;
         public Producer Producer => producer;
-        public ReleaseDate ReleaseDate => releaseDate;
+        public DateTime ReleaseDate => releaseDate;
+        public string Name => name;
+        public string Language => language;
     }
 }

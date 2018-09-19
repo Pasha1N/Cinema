@@ -59,7 +59,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="View.Model\MainViewModel.cs" />
-    <Compile Include="View.Model\MoviePresentationModel.cs" />
+    <Compile Include="View.Model\FilmViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -90,7 +90,24 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Film.Data\Film.Data.csproj">
+      <Project>{fece3c0e-d7e4-463a-987d-3a8f2b4ab25e}</Project>
+      <Name>Film.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Films.Wpf\Films.Wpf.csproj">
+      <Project>{7320ce4c-6619-45a8-8dea-480eed83b949}</Project>
+      <Name>Films.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movie.Domain.Models\Movie.Domain.Models.csproj">
+      <Project>{b3c7ad68-d0db-4424-9aa7-355b067d687b}</Project>
+      <Name>Movie.Domain.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MovieDomain\MovieDomain.csproj">
+      <Project>{943dcff1-a731-4d3d-bfb6-43624df03dc4}</Project>
+      <Name>MovieDomain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>

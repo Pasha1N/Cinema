@@ -61,45 +61,24 @@
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="24"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="64" />
-                    <RowDefinition Height="23" />
-                    <RowDefinition  Height="40" />
-                    <RowDefinition Height="25"  />
-                    <RowDefinition Height="40"  />
-                    <RowDefinition Height="74"  />
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="45" />
+                    <RowDefinition  Height="25" />
+                    <RowDefinition Height="45"  />
+                  
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Column="1" Grid.Row="1" FontSize="15">Name :</TextBlock>
                 <TextBlock  Grid.Column="1" Grid.Row="1" Margin="82,4,0,0">WWWWWWWWWWWW</TextBlock>
                 <TextBlock Grid.Column="1" Grid.Row="2" FontSize="15">Language :</TextBlock>
                 <TextBlock  Grid.Column="1" Grid.Row="2" Margin="82,4,0,0">WWWWWWWWWWWW</TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="3" FontSize="15">Date Releases</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="3" FontSize="15">Date Releases :</TextBlock>
+                <TextBlock  Grid.Column="1" Grid.Row="3" Margin="107,4,0,0">WWWWWWWWWWWW</TextBlock>
 
-                <Grid Grid.Column="1" Grid.Row="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="55"/>
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" Grid.Row="4" FontSize="15">Actors</TextBlock>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Column="1" FontSize="14">Year :</TextBlock>
-                    <TextBlock  Grid.Column="2" Margin="0,4,0,0">WWWWWWWWWWWW</TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="1" FontSize="14">Month :</TextBlock>
-                    <TextBlock  Grid.Column="2" Grid.Row="1" Margin="0,4,0,0">WWWWWWWWWWWW</TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="2" FontSize="14">Day :</TextBlock>
-                    <TextBlock  Grid.Column="2" Grid.Row="3" Margin="0,4,0,0">WWWWWWWWWWWW</TextBlock>
-                </Grid>
-
-                <TextBlock Grid.Column="1" Grid.Row="5" FontSize="15">Actors</TextBlock>
-
-                <Grid Grid.Column="1" Grid.Row="6">
+                <Grid Grid.Column="1" Grid.Row="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="15"/>
                         <ColumnDefinition Width="65"/>
@@ -117,9 +96,9 @@
                     <TextBlock  Grid.Column="2" Grid.Row="1" Margin="0,4,0,0">WWWWWWWWWWWW</TextBlock>
                 </Grid>
 
-                <TextBlock Grid.Column="1" Grid.Row="7" FontSize="15">Producer</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="6" FontSize="15">Producer</TextBlock>
 
-                <Grid Grid.Column="1" Grid.Row="8">
+                <Grid Grid.Column="1" Grid.Row="7">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="15"/>
                         <ColumnDefinition Width="65"/>

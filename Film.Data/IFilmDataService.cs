@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieModels
+namespace Film.Data
 {
-    public class Class1
+    public interface IFilmDataService
     {
+        IFilmDataGateway OpenDataGateway();
     }
 }

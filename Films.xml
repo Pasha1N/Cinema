@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FilmLibrary>
+  <Films>
+    <Film Name="Защитники" Language="1" ReleaseDate="1" Producer="1">
+    <Actor>1</Actor> 
+    <Actor>2</Actor> 
+    <Actor>3</Actor> 
+    <Actor>4</Actor>
+    </Film>
+    
+    <Film Name="Затмение" Language="2" ReleaseDate="2" Producer="2">
+      <Actor>5</Actor>
+      <Actor>6</Actor>    
+    </Film>
+
+    <Film Name="Дэдпул"  Language="2" ReleaseDate="3" Producer="3">
+      <Actor>7</Actor>
+      <Actor>8</Actor>
+    </Film>    
+  </Films>
+    
+  <Actors>
+   <Actor id="1" Name="Антон" Surname="Пампушный"/>
+   <Actor id="2" Name="Санжар" Surname="Мади"/>
+   <Actor id="3" Name="Себастьян" Surname="Сисак"/>
+   <Actor id="4" Name="Алина" Surname="Ланина"/>
+   <Actor id="5" Name="Александр" Surname="Петров"/>
+   <Actor id="6" Name="Диана" Surname="Пожарская"/>
+   <Actor id="7" Name="РАЙАН" Surname="РЕЙНОЛЬДС"/>
+   <Actor id="8" Name="КАРАН" Surname="СОНИ"/>
+  </Actors>
+  
+  <Producers>
+   <Producer id="1" Name="Сарик" Surname="Андреасян"/>
+   <Producer id="2" Name="Артём" Surname="Аксененко"/>
+   <Producer id="3" Name="Тим" Surname="Миллер"/>
+  </Producers> 
+  
+  <Languages>
+   <Language id="1" Name="Russian"/>
+   <Language id="2" Name="English"/>
+  </Languages>
+  
+  <ReleaseDates>
+  <ReleaseDate id="1" Year="2017" Month="2" Day="23"/>  
+  <ReleaseDate id="2" Year="2017" Month="4" Day="27"/>  
+  <ReleaseDate id="3" Year="2016" Month="2" Day="11"/>  
+  </ReleaseDates>
+
+</FilmLibrary>
