@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Film.Data
 {
-    public interface IFilmDataGateway
+    public interface IFilmDataGateway:IDisposable
     {
-        bool AddFilm(string name);
+        bool AddFilm(Movie.Domain.Models.Film film);
         IEnumerable<Movie.Domain.Models.Film> GetFilms();
     }
 }

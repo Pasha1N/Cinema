@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Cinema.Presentation.Wpf"
+        xmlns:ViewModel="clr-namespace:Cinema.Presentation.Wpf.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         MaxWidth="650"
@@ -19,17 +19,17 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
 
-        <ListBox  HorizontalAlignment="Stretch"  ItemsSource="{Binding Films}"
+        <ListBox  HorizontalAlignment="Stretch"  ItemsSource="{Binding FilmViewModels}"
           Background="#FF242C29" BorderThickness="5,5,3,5"
           BorderBrush="#FF132325" >
 
-            <!-- <ListBox.ItemTemplate>
-                <DataTemplate>
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{ x:Type ViewModel:FilmViewModel}">
                     <Grid>
-                        <TextBlock Text=""/>
+                        <TextBlock Text="{Binding Path=Name}"/>
                     </Grid>
                 </DataTemplate>
-            </ListBox.ItemTemplate>-->
+            </ListBox.ItemTemplate>
 
         </ListBox>
 

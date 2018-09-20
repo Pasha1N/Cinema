@@ -20,9 +20,17 @@ namespace MovieDomain
 
         public void AddFilm(Movie.Domain.Models.Film film)
         {
+            bool added = false;
 
+            using (IFilmDataGateway filmDataGateway = filmDataService.OpenDataGateway())
+            {
+                filmDataGateway.AddFilm(film);
+            }
 
-
+            if(added)
+            {
+                OnFilmAdded(new FilmEventArgs(film));
+            }
         }
 
         public IEnumerable<Movie.Domain.Models.Film> GetFilms()

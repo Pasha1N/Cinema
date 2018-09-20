@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Films.Wpf.ViewModel
 {
-    public abstract class ViewModel : INotifyPropertyChanged
+    public abstract class EventINotifyPropertyChanged : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

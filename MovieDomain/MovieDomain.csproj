@@ -46,9 +46,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Film.Data\Film.Data.csproj">
+    <ProjectReference Include="..\Film.Data\FilmData.csproj">
       <Project>{fece3c0e-d7e4-463a-987d-3a8f2b4ab25e}</Project>
-      <Name>Film.Data</Name>
+      <Name>FilmData</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movie.Domain.Models\Movie.Domain.Models.csproj">
       <Project>{b3c7ad68-d0db-4424-9aa7-355b067d687b}</Project>

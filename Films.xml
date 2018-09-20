@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FilmLibrary>
   <Films>
-    <Film Name="Защитники" Language="1" ReleaseDate="2017.2.23" Producer="1">
+    <Film id="1" Name="Защитники" Language="1" ReleaseDate="2017.2.23" Producer="1">
     <Actor>1</Actor> 
     <Actor>2</Actor> 
     <Actor>3</Actor> 
     <Actor>4</Actor>
     </Film>
     
-    <Film Name="Затмение" Language="1" ReleaseDate="2017.4.27" Producer="2">
+    <Film id="2" Name="Затмение" Language="1" ReleaseDate="2017.4.27" Producer="2">
       <Actor>5</Actor>
       <Actor>6</Actor>    
     </Film>
 
-    <Film Name="Дэдпул"  Language="2" ReleaseDate="2016.2.11" Producer="3">
+    <Film id="3" Name="Дэдпул"  Language="2" ReleaseDate="2016.2.11" Producer="3">
       <Actor>7</Actor>
       <Actor>8</Actor>
     </Film>    

@@ -1,4 +1,4 @@
-﻿using Cinema.Presentation.Wpf.View.Model;
+﻿using Cinema.Presentation.Wpf.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

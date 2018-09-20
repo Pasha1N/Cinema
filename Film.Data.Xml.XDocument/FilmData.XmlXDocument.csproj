@@ -40,14 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SearchTagsById.cs" />
     <Compile Include="XDocumentFilmDateService.cs" />
     <Compile Include="XDocumentFilmDataGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Film.Data\Film.Data.csproj">
+    <ProjectReference Include="..\Film.Data\FilmData.csproj">
       <Project>{fece3c0e-d7e4-463a-987d-3a8f2b4ab25e}</Project>
-      <Name>Film.Data</Name>
+      <Name>FilmData</Name>
     </ProjectReference>
     <ProjectReference Include="..\Films\Films.csproj">
       <Project>{e357d83e-f182-4d0b-a979-328930e3a004}</Project>

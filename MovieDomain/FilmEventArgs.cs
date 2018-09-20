@@ -5,13 +5,13 @@ namespace MovieDomain
 {
     public class FilmEventArgs : EventArgs
     {
-        Film film;
+        Movie.Domain.Models.Film film;
 
-        public FilmEventArgs(Film film)
+        public FilmEventArgs(Movie.Domain.Models.Film film)
         {
             this.film = film;
         }
 
-        public Film Film => film;
+        public Movie.Domain.Models.Film Film => film;
     }
 }

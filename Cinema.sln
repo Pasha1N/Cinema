@@ -24,9 +24,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataSources", "DataSources"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDomain", "MovieDomain\MovieDomain.csproj", "{943DCFF1-A731-4D3D-BFB6-43624DF03DC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Film.Data", "Film.Data\Film.Data.csproj", "{FECE3C0E-D7E4-463A-987D-3A8F2B4AB25E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmData", "Film.Data\FilmData.csproj", "{FECE3C0E-D7E4-463A-987D-3A8F2B4AB25E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Film.Data.XmlXDocument", "Film.Data.Xml.XDocument\Film.Data.XmlXDocument.csproj", "{D12CF00A-FFC8-486B-B029-0C977C5B2573}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmData.XmlXDocument", "Film.Data.Xml.XDocument\FilmData.XmlXDocument.csproj", "{D12CF00A-FFC8-486B-B029-0C977C5B2573}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films", "Films\Films.csproj", "{E357D83E-F182-4D0B-A979-328930E3A004}"
 EndProject
