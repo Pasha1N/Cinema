@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D12CF00A-FFC8-486B-B029-0C977C5B2573}</ProjectGuid>
+    <ProjectGuid>{E357D83E-F182-4D0B-A979-328930E3A004}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Film.Data.Xml.XDocument</RootNamespace>
-    <AssemblyName>Film.Data.Xml.XDocument</AssemblyName>
+    <RootNamespace>Films</RootNamespace>
+    <AssemblyName>Films</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,23 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XDocumentFilmDateService.cs" />
-    <Compile Include="XDocumentFilmDataGateway.cs" />
+    <Compile Include="DisposableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Film.Data\Film.Data.csproj">
-      <Project>{fece3c0e-d7e4-463a-987d-3a8f2b4ab25e}</Project>
-      <Name>Film.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Films\Films.csproj">
-      <Project>{e357d83e-f182-4d0b-a979-328930e3a004}</Project>
-      <Name>Films</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Movie.Domain.Models\Movie.Domain.Models.csproj">
-      <Project>{b3c7ad68-d0db-4424-9aa7-355b067d687b}</Project>
-      <Name>Movie.Domain.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

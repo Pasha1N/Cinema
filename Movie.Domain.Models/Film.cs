@@ -14,11 +14,13 @@ namespace Movie.Domain.Models
         private string name;
         private string language;
 
-        public Film(Producer producer, DateTime releaseDate, IEnumerable<Actor> actors)
+        public Film(string name, string language, Producer producer, DateTime releaseDate, IEnumerable<Actor> actors)
         {
             this.producer = producer;
             this.releaseDate = releaseDate;
             this.actors = actors;
+            this.name = name;
+            this.language = language;
         }
 
         public IEnumerable<Actor> Actors => actors;
