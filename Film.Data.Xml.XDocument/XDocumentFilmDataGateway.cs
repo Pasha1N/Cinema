@@ -15,7 +15,7 @@ namespace Film.DataXmlXDocument
     public class XDocumentFilmDataGateway : DisposableObject, IFilmDataGateway
     {
         private XDocument document;
-        private string path = @"../../../Film.xml";
+        private string path = @"../../../Films.xml";
         private SearchTagsById searchTagsById;
 
         public XDocumentFilmDataGateway()
@@ -33,16 +33,12 @@ namespace Film.DataXmlXDocument
 
             IEnumerable<Actor> actors = film.Actors;
             ICollection<int> idActors = new List<int>();
-            //create tag the Language
 
-            document.Root
-                .Element("Films")
-                .Add(new XElement("Film")
-                , new XAttribute("id", idFilm)
-                , new XAttribute("Name", film.Name)
-                , new XAttribute("Language", idLanguage)
-                ,new XAttribute("Producer", idProducer)
-                );
+            idLanguage += 1;
+            document.Root.Element("Languages").Add(
+                new XElement("Language")
+                , new XAttribute("Name", film.Language)
+                , new XAttribute("id", idLanguage));
 
             foreach (Actor actor in actors)
             {
@@ -56,15 +52,25 @@ namespace Film.DataXmlXDocument
                 idActor += 1;
             }
 
-            foreach(int id in idActors)
+            XElement filmIsElement = new XElement(("Film")
+                , new XAttribute("id", idFilm)
+                , new XAttribute("Name", film.Name)
+                , new XAttribute("Language", idLanguage)
+                , new XAttribute("Producer", idProducer)
+                );
+
+            foreach (int id in idActors)
             {
-
-
-
+                filmIsElement.Add(new XElement("Actor", id));
             }
 
+            document.Root
+               .Element("Films")
+               .Add(filmIsElement);
+
+
             return true;
-        }   
+        }
 
        
 
@@ -74,7 +80,7 @@ namespace Film.DataXmlXDocument
             ICollection<Actor> actors = new List<Actor>();
             string name =  film.Attribute("Name").Value;
             string language = FindLanguageById(int.Parse(film.Attribute("Language").Value));
-            DateTime releaseDate = DateTime.Parse(film.Attribute("Language").Value);
+            DateTime releaseDate = DateTime.Parse(film.Attribute("ReleaseDate").Value);
             Producer producer = FindProducerById(int.Parse(film.Attribute("Producer").Value));
             int id = int.Parse(film.Attribute("id").Value);
 
@@ -143,7 +149,7 @@ namespace Film.DataXmlXDocument
 
         public IEnumerable<Movie.Domain.Models.Film> GetFilms()
         {
-            IEnumerable<XElement> filmsIsElements = document.Root.Elements("Films");
+            IEnumerable<XElement> filmsIsElements = document.Root.Element("Films").Elements("Film");
             ICollection<Movie.Domain.Models.Film> films = new List<Movie.Domain.Models.Film>();
 
             foreach(XElement film in filmsIsElements)

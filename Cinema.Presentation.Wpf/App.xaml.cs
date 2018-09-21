@@ -21,8 +21,8 @@ namespace Cinema.Presentation.Wpf
 
             var container = new StandardKernel();
             container.Bind(
-                configurator => configurator
-                    .From("Film.Data.XmlXDocument", "Movie.Domain")
+                configurator => configurator//Film.Data.Xml.XDocument
+                    .From("Film.Data", "Film.Data.Xml.XDocument", "MovieDomain")
                     .SelectAllClasses()
                     .BindAllInterfaces()
                     .ConfigureFor<FilmManager>(config => config.InSingletonScope())
@@ -30,7 +30,7 @@ namespace Cinema.Presentation.Wpf
 
             container.Bind(
                configurator => configurator
-                   .From("Cocktails.Presentation.Wpf")
+                   .From("Cinema.Presentation.Wpf")
                    .IncludingNonPublicTypes()
                    .SelectAllInterfaces()
                    .EndingWith("Factory")

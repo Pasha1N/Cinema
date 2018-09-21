@@ -108,6 +108,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Film.Data.Xml.XDocument\FilmData.XmlXDocument.csproj">
+      <Project>{d12cf00a-ffc8-486b-b029-0c977c5b2573}</Project>
+      <Name>FilmData.XmlXDocument</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Film.Data\FilmData.csproj">
       <Project>{fece3c0e-d7e4-463a-987d-3a8f2b4ab25e}</Project>
       <Name>FilmData</Name>
@@ -115,6 +119,10 @@
     <ProjectReference Include="..\Films.Wpf\Films.Wpf.csproj">
       <Project>{7320ce4c-6619-45a8-8dea-480eed83b949}</Project>
       <Name>Films.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Films\Films.csproj">
+      <Project>{e357d83e-f182-4d0b-a979-328930e3a004}</Project>
+      <Name>Films</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movie.Domain.Models\Movie.Domain.Models.csproj">
       <Project>{b3c7ad68-d0db-4424-9aa7-355b067d687b}</Project>

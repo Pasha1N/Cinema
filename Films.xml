@@ -1,44 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FilmLibrary>
   <Films>
-    <Film id="1" Name="Защитники" Language="1" ReleaseDate="2017.2.23" Producer="1">
-    <Actor>1</Actor> 
-    <Actor>2</Actor> 
-    <Actor>3</Actor> 
-    <Actor>4</Actor>
+    <Film id="1" Name="Защитники" Language="1" ReleaseDate="2017-2-23" Producer="1">
+      <Actor>1</Actor>
+      <Actor>2</Actor>
+      <Actor>3</Actor>
+      <Actor>4</Actor>
     </Film>
-    
-    <Film id="2" Name="Затмение" Language="1" ReleaseDate="2017.4.27" Producer="2">
+    <Film id="2" Name="Затмение" Language="1" ReleaseDate="2017-4-27" Producer="2">
       <Actor>5</Actor>
-      <Actor>6</Actor>    
+      <Actor>6</Actor>
     </Film>
-
-    <Film id="3" Name="Дэдпул"  Language="2" ReleaseDate="2016.2.11" Producer="3">
+    <Film id="3" Name="Дэдпул" Language="2" ReleaseDate="2016-2-11" Producer="3">
       <Actor>7</Actor>
       <Actor>8</Actor>
-    </Film>    
+    </Film>
   </Films>
-    
   <Actors>
-   <Actor id="1" Name="Антон" Surname="Пампушный"/>
-   <Actor id="2" Name="Санжар" Surname="Мади"/>
-   <Actor id="3" Name="Себастьян" Surname="Сисак"/>
-   <Actor id="4" Name="Алина" Surname="Ланина"/>
-   <Actor id="5" Name="Александр" Surname="Петров"/>
-   <Actor id="6" Name="Диана" Surname="Пожарская"/>
-   <Actor id="7" Name="РАЙАН" Surname="РЕЙНОЛЬДС"/>
-   <Actor id="8" Name="КАРАН" Surname="СОНИ"/>
+    <Actor id="1" Name="Антон" Surname="Пампушный" />
+    <Actor id="2" Name="Санжар" Surname="Мади" />
+    <Actor id="3" Name="Себастьян" Surname="Сисак" />
+    <Actor id="4" Name="Алина" Surname="Ланина" />
+    <Actor id="5" Name="Александр" Surname="Петров" />
+    <Actor id="6" Name="Диана" Surname="Пожарская" />
+    <Actor id="7" Name="РАЙАН" Surname="РЕЙНОЛЬДС" />
+    <Actor id="8" Name="КАРАН" Surname="СОНИ" />
   </Actors>
-  
   <Producers>
-   <Producer id="1" Name="Сарик" Surname="Андреасян"/>
-   <Producer id="2" Name="Артём" Surname="Аксененко"/>
-   <Producer id="3" Name="Тим" Surname="Миллер"/>
-  </Producers> 
-  
+    <Producer id="1" Name="Сарик" Surname="Андреасян" />
+    <Producer id="2" Name="Артём" Surname="Аксененко" />
+    <Producer id="3" Name="Тим" Surname="Миллер" />
+  </Producers>
   <Languages>
-   <Language id="1" Name="Russian"/>
-   <Language id="2" Name="English"/>
+    <Language id="1" Name="Russian" />
+    <Language id="2" Name="English" />
   </Languages>
-  
 </FilmLibrary>
