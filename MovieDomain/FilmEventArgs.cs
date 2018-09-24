@@ -1,17 +1,17 @@
-﻿using Movie.Domain.Models;
+﻿using Films.Domain.Models;
 using System;
 
-namespace MovieDomain
+namespace Films.Domain
 {
     public class FilmEventArgs : EventArgs
     {
-        Movie.Domain.Models.Film film;
+       Film film;
 
-        public FilmEventArgs(Movie.Domain.Models.Film film)
+        public FilmEventArgs( Film film)
         {
             this.film = film;
         }
 
-        public Movie.Domain.Models.Film Film => film;
+        public Film Film => film;
     }
 }

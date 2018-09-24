@@ -1,5 +1,4 @@
-﻿
-namespace Movie.Domain.Models
+﻿namespace Films.Domain.Models
 {
     public class Actor
     {

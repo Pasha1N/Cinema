@@ -19,7 +19,8 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
 
-        <ListBox  HorizontalAlignment="Stretch"  ItemsSource="{Binding FilmViewModels}"
+        <ListBox  HorizontalAlignment="Stretch"  ItemsSource="{Binding FilmViewModels}" 
+          SelectedItem="{Binding Path= SelectedFilm, Mode=TwoWay}"
           Background="#FF242C29" BorderThickness="5,5,3,5"
           BorderBrush="#FF132325" >
 
@@ -45,7 +46,8 @@
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
 
-            <Button Margin="5,0,0,0" Grid.Row="1" HorizontalContentAlignment="Center" Background="#FF132325"
+            <Button Command="{Binding Path=AddCommand}" Margin="5,0,0,0" Grid.Row="1" 
+             HorizontalContentAlignment="Center" Background="#FF132325"
              Content="Add Film" BorderBrush="#FF132325" FontSize="16" />
         </Grid>
 
@@ -70,7 +72,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Column="1" Grid.Row="1" FontSize="15">Name :</TextBlock>
-                <TextBlock  Grid.Column="1" Grid.Row="1" Margin="82,4,0,0">WWWWWWWWWWWW</TextBlock>
+                <TextBlock  Grid.Column="1" Grid.Row="1" Margin="82,4,0,0" Text="{Binding Path = Name}"></TextBlock>
                 <TextBlock Grid.Column="1" Grid.Row="2" FontSize="15">Language :</TextBlock>
                 <TextBlock  Grid.Column="1" Grid.Row="2" Margin="82,4,0,0">WWWWWWWWWWWW</TextBlock>
                 <TextBlock Grid.Column="1" Grid.Row="3" FontSize="15">Date Releases :</TextBlock>

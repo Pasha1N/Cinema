@@ -76,6 +76,10 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\FilmViewModel.cs" />
     <Compile Include="ViewModel\ProducerViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelMakingFilm.cs" />
+    <Compile Include="View\MakingFilm.xaml.cs">
+      <DependentUpon>MakingFilm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -108,13 +112,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Film.Data.Xml.XDocument\FilmData.XmlXDocument.csproj">
+    <ProjectReference Include="..\Film.Data.Xml.XDocument\Films.Data.Xml.xDocument.csproj">
       <Project>{d12cf00a-ffc8-486b-b029-0c977c5b2573}</Project>
-      <Name>FilmData.XmlXDocument</Name>
+      <Name>Films.Data.Xml.xDocument</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Film.Data\FilmData.csproj">
+    <ProjectReference Include="..\Film.Data\Films.Data.csproj">
       <Project>{fece3c0e-d7e4-463a-987d-3a8f2b4ab25e}</Project>
-      <Name>FilmData</Name>
+      <Name>Films.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Films.Wpf\Films.Wpf.csproj">
       <Project>{7320ce4c-6619-45a8-8dea-480eed83b949}</Project>
@@ -124,16 +128,20 @@
       <Project>{e357d83e-f182-4d0b-a979-328930e3a004}</Project>
       <Name>Films</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Movie.Domain.Models\Movie.Domain.Models.csproj">
+    <ProjectReference Include="..\Movie.Domain.Models\Films.Domain.Models.csproj">
       <Project>{b3c7ad68-d0db-4424-9aa7-355b067d687b}</Project>
-      <Name>Movie.Domain.Models</Name>
+      <Name>Films.Domain.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MovieDomain\MovieDomain.csproj">
+    <ProjectReference Include="..\MovieDomain\Films.Domain.csproj">
       <Project>{943dcff1-a731-4d3d-bfb6-43624df03dc4}</Project>
-      <Name>MovieDomain</Name>
+      <Name>Films.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\MakingFilm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

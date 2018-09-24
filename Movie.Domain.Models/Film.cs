@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Movie.Domain.Models
+namespace Films.Domain.Models
 {
     public class Film
     {
         private IEnumerable<Actor> actors;
+        private int id;
+        private string language;
+        private string name;
         private Producer producer;
         private DateTime releaseDate;
-        private string name;
-        private string language;
-        private int id;
 
         public Film(int id, string name, string language, Producer producer, DateTime releaseDate, IEnumerable<Actor> actors)
         {
@@ -26,10 +23,10 @@ namespace Movie.Domain.Models
         }
 
         public IEnumerable<Actor> Actors => actors;
+        public int Id => id;
+        public string Language => language;
+        public string Name => name;
         public Producer Producer => producer;
         public DateTime ReleaseDate => releaseDate;
-        public string Name => name;
-        public string Language => language;
-        public int Id => id;
     }
 }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using Films.Domain.Models;
 
 namespace Cinema.Presentation.Wpf.ViewModel
 {
     public interface IViewModelFactory
     {
-        FilmViewModel CreateFilmViewModel(Movie.Domain.Models.Film film);
+        FilmViewModel CreateFilmViewModel(Film film);
     }
 }

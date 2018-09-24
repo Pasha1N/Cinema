@@ -1,11 +1,4 @@
-﻿using Film.DataXmlXDocument;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace Film.Data.XmlXDocument
+﻿namespace Films.Data.Xml.xDocument
 {
     public class XDocumentFilmDateService : IFilmDataService
     {

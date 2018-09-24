@@ -1,30 +1,25 @@
-﻿using Film.Data;
-using Film.Data.XmlXDocument;
-using Films;
-using Movie.Domain.Models;
+﻿using Films.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.Xml.Linq;
 
-namespace Film.DataXmlXDocument
+namespace Films.Data.Xml.xDocument
 {
     public class XDocumentFilmDataGateway : DisposableObject, IFilmDataGateway
     {
         private XDocument document;
         private string path = @"../../../Films.xml";
-        private SearchTagsById searchTagsById;
+        private SearchMaxId searchTagsById;
+        private ReturnIdOfElements returnIdOfElements;
 
         public XDocumentFilmDataGateway()
         {
             document = XDocument.Load(path);
-            searchTagsById = new SearchTagsById(document);
+            searchTagsById = new SearchMaxId(document);
+            returnIdOfElements = new ReturnIdOfElements(document);
         }
 
-        public bool AddFilm(Movie.Domain.Models.Film film)
+        public bool AddFilm(Film film)
         {
             int idFilm = searchTagsById.MaxMovieId();
             int idActor = searchTagsById.MaxActorId();
@@ -34,28 +29,54 @@ namespace Film.DataXmlXDocument
             IEnumerable<Actor> actors = film.Actors;
             ICollection<int> idActors = new List<int>();
 
-            idLanguage += 1;
-            document.Root.Element("Languages").Add(
-                new XElement("Language")
-                , new XAttribute("Name", film.Language)
-                , new XAttribute("id", idLanguage));
+            if (returnIdOfElements.GetLanguageId(film.Language) == 0)
+            {
+                document.Root.Element("Languages").Add(
+                     new XElement("Language"
+                    , new XAttribute("id", idLanguage)
+                    , new XAttribute("Name", film.Language)));
+            }
+            else
+            {
+                idLanguage = returnIdOfElements.GetLanguageId(film.Language);
+            }
 
             foreach (Actor actor in actors)
             {
-                document.Root
-                    .Element("Actors")
-                    .Add(new XElement("Actor")
-                    , new XAttribute("id", idActor)
-                    , new XAttribute("Name", actor.Name)
-                   , new XAttribute("Surname", actor.Surname));
-                idActors.Add(idActor);
-                idActor += 1;
+                if (returnIdOfElements.GetActorId(actor.Name, actor.Surname) == 0)
+                {
+                    idActor += 1;
+                    document.Root
+                        .Element("Actors")
+                        .Add(new XElement("Actor"
+                        , new XAttribute("id", idActor)
+                        , new XAttribute("Name", actor.Name)
+                       , new XAttribute("Surname", actor.Surname)));
+                    idActors.Add(idActor);
+                }
+                else
+                {
+                    idActors.Add(returnIdOfElements.GetActorId(actor.Name, actor.Surname));
+                }
             }
 
+            if (returnIdOfElements.GetProducerId(film.Producer.Name, film.Producer.Surname) == 0)
+            {
+                idProducer += 1;
+                document.Root.Element("Producers").Add(
+                    new XElement("Producer"
+                    , new XAttribute("id", idProducer)
+                    , new XAttribute("Name", film.Producer.Name)
+                    , new XAttribute("Surname", film.Producer.Surname))
+                    );
+            }
+
+            idFilm += 1;
             XElement filmIsElement = new XElement(("Film")
                 , new XAttribute("id", idFilm)
                 , new XAttribute("Name", film.Name)
                 , new XAttribute("Language", idLanguage)
+                , new XAttribute("ReleaseDate", film.ReleaseDate.ToShortDateString())
                 , new XAttribute("Producer", idProducer)
                 );
 
@@ -68,13 +89,10 @@ namespace Film.DataXmlXDocument
                .Element("Films")
                .Add(filmIsElement);
 
-
             return true;
         }
 
-       
-
-        public Movie.Domain.Models.Film CreateFilm(XElement film)
+        public Film CreateFilm(XElement film)
           {
             IEnumerable<XElement> actorsIsElementsActors = film.Elements("Actor");
             ICollection<Actor> actors = new List<Actor>();
@@ -89,7 +107,7 @@ namespace Film.DataXmlXDocument
                 actors.Add(FindActorById(int.Parse(isActor.Value)));
             }
 
-            return new Movie.Domain.Models.Film(id, name, language, producer,releaseDate,actors);
+            return new Film(id, name, language, producer,releaseDate,actors);
          }
 
         protected override void Dispose(bool disposing)
@@ -114,6 +132,22 @@ namespace Film.DataXmlXDocument
             throw new ArgumentException("Invalid Actor Id");
         }
 
+        private string FindLanguageById(int id)
+        {
+            IEnumerable<XElement> languages = document.Root.Element("Languages").Elements("Language");
+
+            foreach (XElement language in languages)
+            {
+                XAttribute attributeId = language.Attribute("id");
+
+                if (id.Equals(int.Parse(attributeId.Value)))
+                {
+                    return language.Attribute("Name").Value;
+                }
+            }
+            throw new ArgumentException("Invalid Producer Id");
+        }
+
         private Producer FindProducerById(int id)
         {
             IEnumerable<XElement> producers = document.Root.Element("Producers").Elements("Producer");
@@ -131,26 +165,10 @@ namespace Film.DataXmlXDocument
             throw new ArgumentException("Invalid Producer Id");
         }
 
-        private string FindLanguageById(int id)
-        {
-            IEnumerable<XElement> languages = document.Root.Element("Languages").Elements("Language");
-
-            foreach (XElement language in languages)
-            {
-                XAttribute attributeId = language.Attribute("id");
-
-                if (id.Equals(int.Parse(attributeId.Value)))
-                {
-                    return language.Attribute("Name").Value;
-                }
-            }
-            throw new ArgumentException("Invalid Producer Id");
-        }
-
-        public IEnumerable<Movie.Domain.Models.Film> GetFilms()
+        public IEnumerable<Film> GetFilms()
         {
             IEnumerable<XElement> filmsIsElements = document.Root.Element("Films").Elements("Film");
-            ICollection<Movie.Domain.Models.Film> films = new List<Movie.Domain.Models.Film>();
+            ICollection<Film> films = new List<Film>();
 
             foreach(XElement film in filmsIsElements)
             {

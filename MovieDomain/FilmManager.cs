@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Film.Data;
+using Films.Data;
+using Films.Domain.Models;
 
-namespace MovieDomain
+namespace Films.Domain
 {
     public class FilmManager : IFilmManager
     {
@@ -18,7 +16,7 @@ namespace MovieDomain
 
         public event EventHandler<FilmEventArgs> FilmAdded;
 
-        public void AddFilm(Movie.Domain.Models.Film film)
+        public void AddFilm(Film film)
         {
             bool added = false;
 
@@ -33,7 +31,7 @@ namespace MovieDomain
             }
         }
 
-        public IEnumerable<Movie.Domain.Models.Film> GetFilms()
+        public IEnumerable<Film> GetFilms()
         {
             IFilmDataGateway dataGeteway = filmDataService.OpenDataGateway();
 

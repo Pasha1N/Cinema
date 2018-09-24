@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{943DCFF1-A731-4D3D-BFB6-43624DF03DC4}</ProjectGuid>
+    <ProjectGuid>{D12CF00A-FFC8-486B-B029-0C977C5B2573}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MovieDomain</RootNamespace>
-    <AssemblyName>MovieDomain</AssemblyName>
+    <RootNamespace>Films.Data.Xml.xDocument</RootNamespace>
+    <AssemblyName>Films.Data.Xml.xDocument</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,19 +40,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FilmEventArgs.cs" />
-    <Compile Include="FilmManager.cs" />
-    <Compile Include="IFilmManager.cs" />
+    <Compile Include="ReturnIdOfElements.cs" />
+    <Compile Include="SearchMaxId.cs" />
+    <Compile Include="XDocumentFilmDateService.cs" />
+    <Compile Include="XDocumentFilmDataGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Film.Data\FilmData.csproj">
+    <ProjectReference Include="..\Film.Data\Films.Data.csproj">
       <Project>{fece3c0e-d7e4-463a-987d-3a8f2b4ab25e}</Project>
-      <Name>FilmData</Name>
+      <Name>Films.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Movie.Domain.Models\Movie.Domain.Models.csproj">
+    <ProjectReference Include="..\Films\Films.csproj">
+      <Project>{e357d83e-f182-4d0b-a979-328930e3a004}</Project>
+      <Name>Films</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movie.Domain.Models\Films.Domain.Models.csproj">
       <Project>{b3c7ad68-d0db-4424-9aa7-355b067d687b}</Project>
-      <Name>Movie.Domain.Models</Name>
+      <Name>Films.Domain.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

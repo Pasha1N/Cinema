@@ -1,15 +1,8 @@
 ﻿using Cinema.Presentation.Wpf.View;
-using Cinema.Presentation.Wpf.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using Ninject;
 using Ninject.Extensions.Conventions;
-using MovieDomain;
+using Films.Domain;
 
 namespace Cinema.Presentation.Wpf
 {
@@ -21,8 +14,8 @@ namespace Cinema.Presentation.Wpf
 
             var container = new StandardKernel();
             container.Bind(
-                configurator => configurator//Film.Data.Xml.XDocument
-                    .From("Film.Data", "Film.Data.Xml.XDocument", "MovieDomain")
+                configurator => configurator
+                    .From("Films.Data", "Films.Data.Xml.xDocument", "Films.Domain")
                     .SelectAllClasses()
                     .BindAllInterfaces()
                     .ConfigureFor<FilmManager>(config => config.InSingletonScope())
