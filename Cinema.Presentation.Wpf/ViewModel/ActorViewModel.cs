@@ -2,7 +2,7 @@
 
 namespace Cinema.Presentation.Wpf.ViewModel
 {
-    internal class ActorViewModel
+    public class ActorViewModel
     {
         private Actor actor;
 

@@ -2,8 +2,8 @@
 {
     public class Producer
     {
-        private string name;
-        private string surname;
+        private string name = string.Empty;
+        private string surname = string.Empty;
 
         public Producer(string name, string surname)
         {

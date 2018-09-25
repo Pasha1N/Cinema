@@ -7,8 +7,8 @@ namespace Films.Domain.Models
     {
         private IEnumerable<Actor> actors;
         private int id;
-        private string language;
-        private string name;
+        private string language = string.Empty;
+        private string name = string.Empty;
         private Producer producer;
         private DateTime releaseDate;
 

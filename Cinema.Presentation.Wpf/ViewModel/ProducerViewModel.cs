@@ -2,7 +2,7 @@
 
 namespace Cinema.Presentation.Wpf.ViewModel
 {
-    internal class ProducerViewModel
+    public class ProducerViewModel
     {
         private Producer producer;
 

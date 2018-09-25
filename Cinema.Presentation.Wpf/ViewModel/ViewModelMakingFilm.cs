@@ -22,7 +22,8 @@ namespace Cinema.Presentation.Wpf.ViewModel
         private string name = string.Empty;
         private string producerName = string.Empty;
         private string producerSurname = string.Empty;
-        private DateTime releaseDate;
+        private DateTime releaseDate = new DateTime();
+        private FilmViewModel selectedFilm;
 
         public ViewModelMakingFilm()
         {
@@ -30,7 +31,7 @@ namespace Cinema.Presentation.Wpf.ViewModel
             commandAddActor = new DelegateCommand(AddActor, EnableAddActorButton);
         }
 
-        IEnumerable<Actor> Actors => actors;
+        public IEnumerable<Actor> Actors => actors;
 
         public string ActorName
         {
@@ -64,7 +65,6 @@ namespace Cinema.Presentation.Wpf.ViewModel
 
         public string Language
         {
-            get => language;
             set => SetProperty(ref language, value);
         }
 
@@ -88,6 +88,12 @@ namespace Cinema.Presentation.Wpf.ViewModel
         {
             get => releaseDate;
             set => SetProperty(ref releaseDate, value);
+        }
+
+        public FilmViewModel SelectedFilm
+        {
+            get => selectedFilm;
+            set => SetProperty(ref selectedFilm, value);
         }
 
         public event EventHandler<EventArgs> ClickingButtonCreateFilm;

@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <ListBox  HorizontalAlignment="Stretch"  ItemsSource="{Binding FilmViewModels}" 
-          SelectedItem="{Binding Path= SelectedFilm, Mode=TwoWay}"
+          SelectedItem="{Binding Path= SelectedFilm}"
           Background="#FF242C29" BorderThickness="5,5,3,5"
           BorderBrush="#FF132325" >
 
@@ -65,42 +65,28 @@
                     <RowDefinition Height="24"/>
                     <RowDefinition Height="26"/>
                     <RowDefinition Height="25" />
-                    <RowDefinition Height="45" />
-                    <RowDefinition  Height="25" />
-                    <RowDefinition Height="45"  />
-                  
+                    <RowDefinition Height="25" />
+                    <RowDefinition  Height="40" />
+                    <RowDefinition Height="169"  />
+
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Column="1" Grid.Row="1" FontSize="15">Name :</TextBlock>
-                <TextBlock  Grid.Column="1" Grid.Row="1" Margin="82,4,0,0" Text="{Binding Path = Name}"></TextBlock>
+                <TextBlock Name="foo" Grid.Column="1" Grid.Row="1" Margin="82,4,0,0" Text="{Binding Path = SelectedFilm.Name}"></TextBlock>
                 <TextBlock Grid.Column="1" Grid.Row="2" FontSize="15">Language :</TextBlock>
-                <TextBlock  Grid.Column="1" Grid.Row="2" Margin="82,4,0,0">WWWWWWWWWWWW</TextBlock>
+                <TextBlock  Grid.Column="1" Grid.Row="2" Margin="82,4,0,0" Text="{Binding Path=SelectedFilm.Language}"></TextBlock>
                 <TextBlock Grid.Column="1" Grid.Row="3" FontSize="15">Date Releases :</TextBlock>
-                <TextBlock  Grid.Column="1" Grid.Row="3" Margin="107,4,0,0">WWWWWWWWWWWW</TextBlock>
+                <TextBlock  Grid.Column="1" Grid.Row="3" Margin="107,4,0,0" Text="{Binding Path=SelectedFilm.ReleaseDate}"></TextBlock>
 
-                <TextBlock Grid.Column="1" Grid.Row="4" FontSize="15">Actors</TextBlock>
+                <!--<TextBlock Grid.Column="1" Grid.Row="4" FontSize="15">Actors</TextBlock>-->
 
-                <Grid Grid.Column="1" Grid.Row="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="65"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Column="1" FontSize="14">Name :</TextBlock>
-                    <TextBlock  Grid.Column="2"  Margin="0,4,0,0">WWWWWWWWWWWW</TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="1" FontSize="14">Surname :</TextBlock>
-                    <TextBlock  Grid.Column="2" Grid.Row="1" Margin="0,4,0,0">WWWWWWWWWWWW</TextBlock>
-                </Grid>
 
-                <TextBlock Grid.Column="1" Grid.Row="6" FontSize="15">Producer</TextBlock>
 
-                <Grid Grid.Column="1" Grid.Row="7">
+                <TextBlock Grid.Column="1" Grid.Row="5" FontSize="15">Producer</TextBlock>
+
+                <Grid Grid.Column="1" Grid.Row="6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="15"/>
                         <ColumnDefinition Width="65"/>
@@ -113,11 +99,24 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="1" FontSize="14">Name :</TextBlock>
-                    <TextBlock  Grid.Column="2" Margin="0,4,0,0">WWWWWWWWWWWW</TextBlock>
+                    <TextBlock  Grid.Column="2" Margin="0,4,0,0" Text="{Binding Path=ProducerViewModel.Name}"/>
                     <TextBlock Grid.Column="1" Grid.Row="1" FontSize="14">Surname :</TextBlock>
-                    <TextBlock  Grid.Column="2" Grid.Row="1" Margin="0,4,0,0">WWWWWWWWWWWW</TextBlock>
+                    <TextBlock  Grid.Column="2" Grid.Row="1" Margin="0,4,0,0" Text="{Binding Path=ProducerViewModel.Surname}"/>
                 </Grid>
 
+                <ComboBox Grid.Column="1" HorizontalAlignment="Left" 
+                           Grid.Row="4" VerticalAlignment="Top" Width="200" Height="24"
+                          ItemsSource="{Binding Path=ActorViewModels}">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                 <Run Text="{Binding Path=Name,Mode=OneWay}"/>
+                                <Run Text="{Binding Path=Surname,Mode=OneWay}"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </Grid>
         </Border>
     </Grid>

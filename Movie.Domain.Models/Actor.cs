@@ -2,8 +2,8 @@
 {
     public class Actor
     {
-        private string name;
-        private string surname;
+        private string name = string.Empty;
+        private string surname = string.Empty;
 
         public Actor(string name, string surname)
         {

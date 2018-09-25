@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Domain="clr-namespace:Films.Domain.Models"
+        xmlns:Models="clr-namespace:Films.Domain.Models;assembly=Films.Domain.Models"
+
         mc:Ignorable="d"
         Title="Making Film" Height="467" Width="380">
 
@@ -28,19 +29,19 @@
                    FontSize="14"/>
 
         <TextBox Grid.Column="2" Background="#FF115B5B" BorderBrush="#FF034949"
-                  VerticalAlignment="Center" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                  VerticalAlignment="Center" Text="{Binding Path=Name}"/>
 
         <TextBlock Text="Release Date : " Grid.Column="1" Grid.Row="1" 
                    HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" />
 
         <TextBox Grid.Column="2" Grid.Row="1" Background="#FF115B5B" 
-                 BorderBrush="#FF034949" VerticalAlignment="Center" Text="{Binding Path=Language}"/>
+                 BorderBrush="#FF034949" VerticalAlignment="Center" Text="{Binding Path=ReleaseDate}"/>
 
         <TextBlock Text="Language : " Grid.Column="1" Grid.Row="2"
                    HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"/>
 
         <TextBox Grid.Column="2" Grid.Row="2" Background="#FF115B5B" 
-                 BorderBrush="#FF034949" VerticalAlignment="Center"/>
+                 BorderBrush="#FF034949" VerticalAlignment="Center" Text="{Binding Path=Language}"/>
 
         <TextBlock Text="Producer : " Grid.Column="1" Grid.Row="3"
                    HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"/>
@@ -107,18 +108,15 @@
 
                 </Grid>
                 <ListBox Grid.Row="1" Background="#FF115B5B" FontSize="13" 
-                         BorderBrush="#FF034949" Margin="0,5,0,0" ItemsSource="{Binding Path= Actors, Mode=TwoWay}">
+                         BorderBrush="#FF034949" Margin="0,5,0,0" ItemsSource="{Binding Path= Actors}">
 
                     <ListBox.ItemTemplate>
-                        <!--спросить что указать после x: type  -->
                         <DataTemplate>
                             <Grid>
                                 <TextBlock Text="{Binding Path=Name}"></TextBlock>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-
-
                 </ListBox>
 
             </Grid>
