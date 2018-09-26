@@ -98,7 +98,8 @@ namespace Cinema.Presentation.Wpf.ViewModel
                         actorViewModels.Add(new ActorViewModel(actor));
                     }
                     ProducerViewModel = new ProducerViewModel(SelectedFilm.Producer);
-                } }
+                }
+            }
         }
     }
 }
