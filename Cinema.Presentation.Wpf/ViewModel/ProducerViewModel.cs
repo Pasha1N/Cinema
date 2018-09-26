@@ -12,7 +12,9 @@ namespace Cinema.Presentation.Wpf.ViewModel
         }
 
         public string Name => producer.Name;
+
         public Producer Producer => producer;
+
         public string Surname => producer.Surname;
     }
 }

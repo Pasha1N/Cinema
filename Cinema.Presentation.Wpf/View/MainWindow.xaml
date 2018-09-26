@@ -99,16 +99,24 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="1" FontSize="14">Name :</TextBlock>
-                    <TextBlock  Grid.Column="2" Margin="0,4,0,0" Text="{Binding Path=ProducerViewModel.Name}"/>
+                    <TextBlock  Grid.Column="2" Margin="0,4,0,0" Text="{Binding Path=ProducerViewModel.Name,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Grid.Column="1" Grid.Row="1" FontSize="14">Surname :</TextBlock>
                     <TextBlock  Grid.Column="2" Grid.Row="1" Margin="0,4,0,0" Text="{Binding Path=ProducerViewModel.Surname}"/>
                 </Grid>
 
                 <ComboBox Grid.Column="1" HorizontalAlignment="Left" 
                            Grid.Row="4" VerticalAlignment="Top" Width="200" Height="24"
-                          ItemsSource="{Binding Path=ActorViewModels}">
+                          ItemsSource="{Binding Path=ActorViewModels}" >
 
-                    <ComboBox.ItemTemplate>
+                    <!--<ComboBox.Template>
+
+                        <ControlTemplate TargetType="{x:Type ComboBox}">
+                            <Border Background="#FF242C29"></Border>
+                        </ControlTemplate>
+                    </ComboBox.Template>-->
+                    
+
+                        <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock>
                                  <Run Text="{Binding Path=Name,Mode=OneWay}"/>

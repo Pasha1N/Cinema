@@ -17,7 +17,7 @@ namespace Cinema.Presentation.Wpf.ViewModel
         private Film film;
         private IFilmManager filmManager;
         private ICollection<FilmViewModel> filmViewModels = new ObservableCollection<FilmViewModel>();
-        private ProducerViewModel producerViewModels;
+        private ProducerViewModel producerViewModel;
         private IViewModelFactory viewModelFactory;
         private ViewModelMakingFilm viewModelMakingFilm;
         private FilmViewModel selectedFilm;
@@ -42,7 +42,11 @@ namespace Cinema.Presentation.Wpf.ViewModel
 
         public IEnumerable<FilmViewModel> FilmViewModels => filmViewModels;
 
-        public ProducerViewModel ProducerViewModel => producerViewModels;
+        public ProducerViewModel ProducerViewModel
+        {
+            get => producerViewModel;
+            set => SetProperty(ref producerViewModel, value);
+        }
 
         public FilmViewModel SelectedFilm
         {
@@ -83,17 +87,18 @@ namespace Cinema.Presentation.Wpf.ViewModel
         {
             base.OnPropertyChanged(e);
 
-            if (selectedFilm != null)
+            if (e.PropertyName.Equals(nameof(SelectedFilm)))
             {
-                actorViewModels.Clear();
-
-                foreach (Actor actor in selectedFilm.Actors)
+                if (selectedFilm != null)
                 {
-                    actorViewModels.Add(new ActorViewModel(actor));
-                }
+                    actorViewModels.Clear();
 
-                producerViewModels = new ProducerViewModel(selectedFilm.Producer);
-            }
+                    foreach (Actor actor in selectedFilm.Actors)
+                    {
+                        actorViewModels.Add(new ActorViewModel(actor));
+                    }
+                    ProducerViewModel = new ProducerViewModel(SelectedFilm.Producer);
+                } }
         }
     }
 }
