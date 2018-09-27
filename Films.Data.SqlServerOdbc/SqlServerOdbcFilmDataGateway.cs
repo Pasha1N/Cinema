@@ -10,7 +10,7 @@ namespace Films.Data.SqlServerOdbc
 {
     public class SqlServerOdbcFilmDataGateway : DisposableObject, IFilmDataGateway
     {
-        private readonly OdbcConnection connection = new OdbcConnection("Driver={SQL Server};Server=(local);Database=BookShop;Trusted_Security=Yes;");
+        private readonly OdbcConnection connection = new OdbcConnection("Driver={Sql Server};Server=DESKTOP-3C2NDOK;Database=FilmLibrary;Trusted_Connection=True");
 
         public SqlServerOdbcFilmDataGateway()
         {
@@ -22,10 +22,14 @@ namespace Films.Data.SqlServerOdbc
             int producerId = 0;
             OdbcCommand getProducerId = new OdbcCommand();
 
-          //  getProducerId.CommandText = $"Select {producerId}= ";
 
 
-//OdbcCommand odbcCommand=new OdbcCommand($"Insert into FilmLibrary (Name, Language, ReleaseDate, )")
+            getProducerId.CommandText = $"Select {producerId}= Producers.id" +
+                $" for Producers " +
+                $"where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}"; 
+
+     // OdbcCommand odbcCommand=new OdbcCommand($"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values" +
+     //     $"()")
 
 
             return true;
