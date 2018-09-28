@@ -8,7 +8,7 @@ namespace Films.Data.Xml.xDocument
     public class XDocumentFilmDataGateway : DisposableObject, IFilmDataGateway
     {
         private XDocument document;
-        private string path = @"../../../Films.xml";
+        private const string path = @"../../../Films.xml";
         private SearchMaxId searchTagsById;
         private ReturnIdOfElements returnIdOfElements;
 
