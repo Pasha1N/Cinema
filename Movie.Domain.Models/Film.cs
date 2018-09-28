@@ -23,10 +23,15 @@ namespace Films.Domain.Models
         }
 
         public IEnumerable<Actor> Actors => actors;
+
         public int Id => id;
+
         public string Language => language;
+
         public string Name => name;
+
         public Producer Producer => producer;
+
         public DateTime ReleaseDate => releaseDate;
     }
 }
