@@ -5,9 +5,9 @@ namespace Films.Domain
 {
     public class FilmEventArgs : EventArgs
     {
-       Film film;
+        private Film film;
 
-        public FilmEventArgs( Film film)
+        public FilmEventArgs(Film film)
         {
             this.film = film;
         }
