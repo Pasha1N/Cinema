@@ -5,12 +5,12 @@ namespace Films.Domain.Models
 {
     public class Film
     {
-        private IEnumerable<Actor> actors;
-        private int id;
-        private string language = string.Empty;
-        private string name = string.Empty;
-        private Producer producer;
-        private DateTime releaseDate;
+        private readonly IEnumerable<Actor> actors;
+        private readonly int id;
+        private readonly string language = string.Empty;
+        private readonly string name = string.Empty;
+        private readonly Producer producer;
+        private readonly DateTime releaseDate;
 
         public Film(int id, string name, string language, Producer producer, DateTime releaseDate, IEnumerable<Actor> actors)
         {

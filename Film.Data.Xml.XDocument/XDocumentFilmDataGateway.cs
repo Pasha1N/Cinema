@@ -7,10 +7,10 @@ namespace Films.Data.Xml.xDocument
 {
     public class XDocumentFilmDataGateway : DisposableObject, IFilmDataGateway
     {
-        private XDocument document;
+        private readonly XDocument document;
         private const string path = @"../../../Films.xml";
-        private SearchMaxId searchTagsById;
-        private ReturnIdOfElements returnIdOfElements;
+        private readonly SearchMaxId searchTagsById;
+        private readonly ReturnIdOfElements returnIdOfElements;
 
         public XDocumentFilmDataGateway()
         {
@@ -93,22 +93,22 @@ namespace Films.Data.Xml.xDocument
         }
 
         public Film CreateFilm(XElement film)
-          {
+        {
             IEnumerable<XElement> actorsIsElementsActors = film.Elements("Actor");
             ICollection<Actor> actors = new List<Actor>();
-            string name =  film.Attribute("Name").Value;
+            string name = film.Attribute("Name").Value;
             string language = FindLanguageById(int.Parse(film.Attribute("Language").Value));
             DateTime releaseDate = DateTime.Parse(film.Attribute("ReleaseDate").Value);
             Producer producer = FindProducerById(int.Parse(film.Attribute("Producer").Value));
             int id = int.Parse(film.Attribute("id").Value);
 
-            foreach(XElement isActor in actorsIsElementsActors)
+            foreach (XElement isActor in actorsIsElementsActors)
             {
                 actors.Add(FindActorById(int.Parse(isActor.Value)));
             }
 
-            return new Film(id, name, language, producer,releaseDate,actors);
-         }
+            return new Film(id, name, language, producer, releaseDate, actors);
+        }
 
         protected override void Dispose(bool disposing)
         {
@@ -123,7 +123,7 @@ namespace Films.Data.Xml.xDocument
             {
                 XAttribute attributeId = actor.Attribute("id");
 
-                if(id.Equals(int.Parse(attributeId.Value)))
+                if (id.Equals(int.Parse(attributeId.Value)))
                 {
                     Actor actor_ = new Actor(actor.Attribute("Name").Value, actor.Attribute("Surname").Value);
                     return actor_;
@@ -158,7 +158,7 @@ namespace Films.Data.Xml.xDocument
 
                 if (id.Equals(int.Parse(attributeId.Value)))
                 {
-                   Producer producer_ = new Producer(producer.Attribute("Name").Value, producer.Attribute("Surname").Value);
+                    Producer producer_ = new Producer(producer.Attribute("Name").Value, producer.Attribute("Surname").Value);
                     return producer_;
                 }
             }
@@ -170,7 +170,7 @@ namespace Films.Data.Xml.xDocument
             IEnumerable<XElement> filmsIsElements = document.Root.Element("Films").Elements("Film");
             ICollection<Film> films = new List<Film>();
 
-            foreach(XElement film in filmsIsElements)
+            foreach (XElement film in filmsIsElements)
             {
                 films.Add(CreateFilm(film));
             }

@@ -5,7 +5,7 @@ namespace Films.Data.Xml.xDocument
 {
     internal class SearchMaxId
     {
-        private XDocument document;
+        private readonly XDocument document;
 
         public SearchMaxId(XDocument document)
         {

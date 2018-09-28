@@ -5,7 +5,7 @@ namespace Films.Data.Xml.xDocument
 {
     public class ReturnIdOfElements
     {
-        private XDocument document;
+        private readonly XDocument document;
 
         public ReturnIdOfElements(XDocument document)
         {

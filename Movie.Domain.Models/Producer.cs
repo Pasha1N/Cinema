@@ -2,8 +2,8 @@
 {
     public class Producer
     {
-        private string name = string.Empty;
-        private string surname = string.Empty;
+        private readonly string name = string.Empty;
+        private readonly string surname = string.Empty;
 
         public Producer(string name, string surname)
         {
@@ -12,6 +12,7 @@
         }
 
         public string Name => name;
+
         public string Surname => surname;
     }
 }
