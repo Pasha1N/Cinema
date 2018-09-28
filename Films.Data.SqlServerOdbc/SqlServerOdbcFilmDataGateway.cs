@@ -10,7 +10,7 @@ namespace Films.Data.SqlServerOdbc
 {
     public class SqlServerOdbcFilmDataGateway : DisposableObject, IFilmDataGateway
     {
-        private readonly OdbcConnection connection = new OdbcConnection("Driver={Sql Server};Server=DESKTOP-3C2NDOK;Database=FilmLibrary;Trusted_Connection=True");
+        private readonly OdbcConnection connection = new OdbcConnection("Driver={Sql Server};Server=(local);Database=FilmLibrary;Trusted_Connection=True");
 
         public SqlServerOdbcFilmDataGateway()
         {
@@ -20,23 +20,56 @@ namespace Films.Data.SqlServerOdbc
         public bool AddFilm(Film film)
         {
             int producerId = 0;
-            OdbcCommand getProducerId = new OdbcCommand();
+            int filmId = 0;
 
+            OdbcCommand producer= new OdbcCommand();
 
+            producer.CommandText = $"insert into Producers(Name, Surname)]values " +
+                $"({film.Producer.Name},{film.Producer.Surname})";
 
-            getProducerId.CommandText = $"Select {producerId}= Producers.id" +
+            producer.CommandText = $"Select Producers.id" +
                 $" for Producers " +
-                $"where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}"; 
+                $"where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
 
-     // OdbcCommand odbcCommand=new OdbcCommand($"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values" +
-     //     $"()")
+            using (OdbcDataReader readProducerId = producer.ExecuteReader())
+            {
+               string stringProducerId = readProducerId["id"].ToString();
+                producerId = int.Parse(stringProducerId);
+            }
 
+            OdbcCommand addFilm = new OdbcCommand();
+            addFilm.CommandText = $"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values" +
+                $"({film.Name},{film.Language},{film.ReleaseDate},{producerId})";
 
-            return true;
+            addFilm.CommandText = $"select Films.id from Film Where Films.Name={film.Name} " +
+                $"and Films.ProducerId={producerId} and Films.ReleaseDate ={film.ReleaseDate}";
+
+            using (OdbcDataReader readFilmId = addFilm.ExecuteReader())
+            {
+                string stringFilmId = readFilmId["id"].ToString();
+
+                filmId = int.Parse(stringFilmId);
+            }
+
+            OdbcCommand addActors = new OdbcCommand();
+            
+            foreach( Actor actor in film.Actors)
+            {
+                addActors.CommandText = "insert into Actors (Name, Surname, idFilm)values" +
+              $"({actor.Name}, {actor.Surname}, {filmId})";
+            }
+          
+
+                return true;
         }
 
         public IEnumerable<Film> GetFilms()
         {
+
+
+
+
+
             throw new NotImplementedException();
         }
 
