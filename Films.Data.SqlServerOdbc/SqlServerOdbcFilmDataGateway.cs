@@ -22,7 +22,7 @@ namespace Films.Data.SqlServerOdbc
             int producerId = 0;
             int filmId = 0;
 
-            OdbcCommand producer= new OdbcCommand();
+            OdbcCommand producer = new OdbcCommand();
 
             producer.CommandText = $"insert into Producers(Name, Surname)]values " +
                 $"({film.Producer.Name},{film.Producer.Surname})";
@@ -33,7 +33,7 @@ namespace Films.Data.SqlServerOdbc
 
             using (OdbcDataReader readProducerId = producer.ExecuteReader())
             {
-               string stringProducerId = readProducerId["id"].ToString();
+                string stringProducerId = readProducerId["id"].ToString();
                 producerId = int.Parse(stringProducerId);
             }
 
@@ -52,25 +52,92 @@ namespace Films.Data.SqlServerOdbc
             }
 
             OdbcCommand addActors = new OdbcCommand();
-            
-            foreach( Actor actor in film.Actors)
+
+            foreach (Actor actor in film.Actors)
             {
                 addActors.CommandText = "insert into Actors (Name, Surname, idFilm)values" +
               $"({actor.Name}, {actor.Surname}, {filmId})";
             }
-          
 
-                return true;
+            return true;
         }
 
         public IEnumerable<Film> GetFilms()
         {
+            ICollection<Film> films = new List<Film>();
+            OdbcCommand getFils = new OdbcCommand();
+            getFils.CommandText = "Select id from Films";
+
+            using (OdbcDataReader dataReader = getFils.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    Film film = CreateFilm(int.Parse(dataReader["id"].ToString()));
+                    films.Add(film);
+                }
+            }
+            return films;
+        }
+
+        private Film CreateFilm(int filmId)
+        {
+            Film film;
+            OdbcCommand command = new OdbcCommand();
+            command.CommandText = $"select  Name, Language, ReleaseDate from Films where Films.Id ={filmId}";
+
+            using (OdbcDataReader dataRead = command.ExecuteReader())
+            {
+                film = new Film(
+                    filmId
+                    , dataRead["Name"].ToString()
+                    , dataRead["Language"].ToString()
+                    , GetProducer(filmId)
+                    , DateTime.Parse(dataRead["ReleaseDate"].ToString())
+                    , GetActors(filmId)
+                    );
+            }
+
+            return film;
+        }
 
 
+        private IEnumerable<Actor> GetActors(int filmId)
+        {
+            ICollection<Actor> actors = new List<Actor>();
 
+            OdbcCommand command = new OdbcCommand();
+            command.CommandText = $"select Name, Surname from Actors where Actor.idFilm ={filmId}";
 
+            using (OdbcDataReader dataReader = command.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    actors.Add(new Actor(dataReader["Name"].ToString(), dataReader["Surname"].ToString()));
+                }
+            }
+            return actors;
+        }
 
-            throw new NotImplementedException();
+        private Producer GetProducer(int filmId)
+        {
+            int idProducer;
+            OdbcCommand command = new OdbcCommand();
+            Producer producer;
+            command.CommandText = $"select id from Producers Where Film.id{filmId}";
+
+            using (OdbcDataReader dataReader = command.ExecuteReader())
+            {
+                idProducer = int.Parse(dataReader["id"].ToString());
+            }
+
+            command.CommandText = $"select Name, Surname from Producers where Prducers.id={idProducer}";
+
+            using (OdbcDataReader dataReader = command.ExecuteReader())
+            {
+                producer = new Producer(dataReader["Name"].ToString(), dataReader["Surname"].ToString());
+            }
+
+            return producer;
         }
 
         protected override void Dispose(bool disposing)
