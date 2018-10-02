@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films.Data.Xml.xDocument", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films", "Films\Films.csproj", "{E357D83E-F182-4D0B-A979-328930E3A004}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films.Data.SqlServerOdbc", "Films.Data.SqlServerOdbc\Films.Data.SqlServerOdbc.csproj", "{D8A55211-584E-471B-9A24-E36DBA673DA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films.Data.SqlServerSqlClient", "Films.Data.SqlServerOdbc\Films.Data.SqlServerSqlClient.csproj", "{D8A55211-584E-471B-9A24-E36DBA673DA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

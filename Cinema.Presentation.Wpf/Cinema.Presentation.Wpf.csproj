@@ -121,9 +121,9 @@
       <Project>{fece3c0e-d7e4-463a-987d-3a8f2b4ab25e}</Project>
       <Name>Films.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Films.Data.SqlServerOdbc\Films.Data.SqlServerOdbc.csproj">
+    <ProjectReference Include="..\Films.Data.SqlServerOdbc\Films.Data.SqlServerSqlClient.csproj">
       <Project>{d8a55211-584e-471b-9a24-e36dba673da1}</Project>
-      <Name>Films.Data.SqlServerOdbc</Name>
+      <Name>Films.Data.SqlServerSqlClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Films.Wpf\Films.Wpf.csproj">
       <Project>{7320ce4c-6619-45a8-8dea-480eed83b949}</Project>
