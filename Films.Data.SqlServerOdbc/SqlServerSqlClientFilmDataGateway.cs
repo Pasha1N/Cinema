@@ -12,7 +12,7 @@ namespace Films.Data.SqlServerSqlClient
     public class SqlServerSqlClientFilmDataGateway : DisposableObject, IFilmDataGateway
     {
         //private readonly SqlConnection connection = new SqlConnection("Provider={SQLNCLI};Server=(local);Database=FilmLibrary;Trusted_Connection=True");
-        private readonly SqlConnection connection = new SqlConnection("Driver=SQLNCLI;Server=(local);Database=FilmLibrary;Trusted_Connection=yes;");
+        private readonly SqlConnection connection = new SqlConnection("Server=(local);Database=FilmLibrary;Trusted_Connection=yes;");
         public SqlServerSqlClientFilmDataGateway()
         {
             connection.Open();
@@ -66,17 +66,24 @@ namespace Films.Data.SqlServerSqlClient
         public IEnumerable<Film> GetFilms()
         {
             ICollection<Film> films = new List<Film>();
+            ICollection<int> idFilms = new List<int>();
             SqlCommand getFils = new SqlCommand();
             getFils.CommandText = "Select id from Films";
+            getFils.Connection = connection;
 
             using (SqlDataReader dataReader = getFils.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
-                    Film film = CreateFilm(int.Parse(dataReader["id"].ToString()));
-                    films.Add(film);
+                   idFilms.Add(int.Parse(dataReader["id"].ToString()));
                 }
             }
+
+            foreach(int id in idFilms )
+            {
+                films.Add(CreateFilm(id));
+            }
+
             return films;
         }
 
@@ -85,6 +92,7 @@ namespace Films.Data.SqlServerSqlClient
             Film film;
             SqlCommand command = new SqlCommand();
             command.CommandText = $"select  Name, Language, ReleaseDate from Films where Films.Id ={filmId}";
+            command.Connection = connection;
 
             using (SqlDataReader dataRead = command.ExecuteReader())
             {
@@ -108,6 +116,7 @@ namespace Films.Data.SqlServerSqlClient
 
             SqlCommand command = new SqlCommand();
             command.CommandText = $"select Name, Surname from Actors where Actor.idFilm ={filmId}";
+            command.Connection = connection;
 
             using (SqlDataReader dataReader = command.ExecuteReader())
             {
@@ -125,6 +134,7 @@ namespace Films.Data.SqlServerSqlClient
             SqlCommand command = new SqlCommand();
             Producer producer;
             command.CommandText = $"select id from Producers Where Film.id{filmId}";
+            command.Connection = connection;
 
             using (SqlDataReader dataReader = command.ExecuteReader())
             {
