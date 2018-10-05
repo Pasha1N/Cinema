@@ -62,83 +62,99 @@ namespace Films.Data.SqlServerOdbc
             return true;
         }
 
+
         public IEnumerable<Film> GetFilms()
         {
             ICollection<Film> films = new List<Film>();
+            ICollection<int> idFilms = new List<int>();
             OdbcCommand getFils = new OdbcCommand();
             getFils.CommandText = "Select id from Films";
+            getFils.Connection = connection;
 
             using (OdbcDataReader dataReader = getFils.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
-                    Film film = CreateFilm(int.Parse(dataReader["id"].ToString()));
-                    films.Add(film);
+                    idFilms.Add(int.Parse(dataReader["id"].ToString()));
                 }
             }
+
+            foreach (int id in idFilms)
+            {
+                films.Add(CreateFilm(id));
+            }
+
             return films;
         }
 
         private Film CreateFilm(int filmId)
         {
-            Film film;
+            Film film = null;
             OdbcCommand command = new OdbcCommand();
-            command.CommandText = $"select  Name, Language, ReleaseDate from Films where Films.Id ={filmId}";
+            command.CommandText = $"select  Name, Language, ReleaseDate from Films" +
+                $"inner join Actors on Actors.idFilm = Films.id " +
+                $"where Films.Id ={filmId}";
+
+
+
+            command.Connection = connection;
 
             using (OdbcDataReader dataRead = command.ExecuteReader())
             {
-                film = new Film(
-                    filmId
-                    , dataRead["Name"].ToString()
-                    , dataRead["Language"].ToString()
-                    , GetProducer(filmId)
-                    , DateTime.Parse(dataRead["ReleaseDate"].ToString())
-                    , GetActors(filmId)
-                    );
+                //    film = new Film(
+                //        filmId
+                //        , dataRead["Name"].ToString()
+                //        , dataRead["Language"].ToString()
+                //        , GetProducer(filmId)
+                //        , DateTime.Parse(dataRead["ReleaseDate"].ToString())
+                //        , GetActors(filmId)
+                //        );
             }
 
             return film;
         }
 
 
-        private IEnumerable<Actor> GetActors(int filmId)
-        {
-            ICollection<Actor> actors = new List<Actor>();
+        //private IEnumerable<Actor> GetActors(int filmId)
+        //{
+        //    ICollection<Actor> actors = new List<Actor>();
 
-            OdbcCommand command = new OdbcCommand();
-            command.CommandText = $"select Name, Surname from Actors where Actor.idFilm ={filmId}";
+        //    OdbcCommand command = new OdbcCommand();
+        //    command.CommandText = $"select Name, Surname from Actors where Actor.idFilm ={filmId}";
+        //    command.Connection = connection;
 
-            using (OdbcDataReader dataReader = command.ExecuteReader())
-            {
-                while (dataReader.Read())
-                {
-                    actors.Add(new Actor(dataReader["Name"].ToString(), dataReader["Surname"].ToString()));
-                }
-            }
-            return actors;
-        }
+        //    using (OdbcDataReader dataReader = command.ExecuteReader())
+        //    {
+        //        while (dataReader.Read())
+        //        {
+        //            actors.Add(new Actor(dataReader["Name"].ToString(), dataReader["Surname"].ToString()));
+        //        }
+        //    }
+        //    return actors;
+        //}
 
-        private Producer GetProducer(int filmId)
-        {
-            int idProducer;
-            OdbcCommand command = new OdbcCommand();
-            Producer producer;
-            command.CommandText = $"select id from Producers Where Film.id{filmId}";
+        //private Producer GetProducer(int filmId)
+        //{
+        //    int idProducer;
+        //    OdbcCommand command = new OdbcCommand();
+        //    Producer producer;
+        //    command.CommandText = $"select id from Producers Where Film.id{filmId}";
+        //    command.Connection = connection;
 
-            using (OdbcDataReader dataReader = command.ExecuteReader())
-            {
-                idProducer = int.Parse(dataReader["id"].ToString());
-            }
+        //    using (OdbcDataReader dataReader = command.ExecuteReader())
+        //    {
+        //        idProducer = int.Parse(dataReader["id"].ToString());
+        //    }
 
-            command.CommandText = $"select Name, Surname from Producers where Prducers.id={idProducer}";
+        //    command.CommandText = $"select Name, Surname from Producers where Prducers.id={idProducer}";
 
-            using (OdbcDataReader dataReader = command.ExecuteReader())
-            {
-                producer = new Producer(dataReader["Name"].ToString(), dataReader["Surname"].ToString());
-            }
+        //    using (OdbcDataReader dataReader = command.ExecuteReader())
+        //    {
+        //        producer = new Producer(dataReader["Name"].ToString(), dataReader["Surname"].ToString());
+        //    }
 
-            return producer;
-        }
+        //    return producer;
+        //}
 
         protected override void Dispose(bool disposing)
         {
