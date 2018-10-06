@@ -1,6 +1,8 @@
-﻿using Films.Domain.Models;
+﻿using Films.Data.SqlServerOdbc.Dto;
+using Films.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Odbc;
 using System.Linq;
 using System.Text;
@@ -10,11 +12,11 @@ namespace Films.Data.SqlServerOdbc
 {
     public class SqlServerOdbcFilmDataGateway : DisposableObject, IFilmDataGateway
     {
-        SqlConnection connection;
+        OdbcConnection connection;
 
         public SqlServerOdbcFilmDataGateway()
         {
-            connection = new SqlConnection(ConfigurationManager
+            connection = new OdbcConnection(ConfigurationManager
                 .ConnectionStrings["DefaultConnectionToSQLExpress"]
                 .ConnectionString
                 );
@@ -64,11 +66,11 @@ namespace Films.Data.SqlServerOdbc
         {
             ICollection<Film> films = new List<Film>();
             ICollection<int> idFilms = new List<int>();
-            SqlCommand getFils = new SqlCommand();
+            OdbcCommand getFils = new OdbcCommand();
             getFils.CommandText = "Select id from Films";
             getFils.Connection = connection;
 
-            using (SqlDataReader dataReader = getFils.ExecuteReader())
+            using (OdbcDataReader dataReader = getFils.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
@@ -88,12 +90,12 @@ namespace Films.Data.SqlServerOdbc
         {
             ICollection<Actor> actors = new List<Actor>();
             FilmDto filmDto = new FilmDto();
-            SqlCommand command = new SqlCommand();
+            OdbcCommand command = new OdbcCommand();
 
             command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer, Actors.Name as actorName, Actors.Surname as actorSurname from Films inner join Actors on Actors.idFilm =Films.id where Actors.idFilm ={filmId}";
             command.Connection = connection;
 
-            using (SqlDataReader dataReader = command.ExecuteReader())
+            using (OdbcDataReader dataReader = command.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
@@ -114,7 +116,7 @@ namespace Films.Data.SqlServerOdbc
             command.Connection = connection;
             Producer producer = null;
 
-            using (SqlDataReader dataReader = command.ExecuteReader())
+            using (OdbcDataReader dataReader = command.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
