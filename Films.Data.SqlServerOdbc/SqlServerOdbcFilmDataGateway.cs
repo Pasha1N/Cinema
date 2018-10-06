@@ -14,7 +14,7 @@ namespace Films.Data.SqlServerOdbc
     {
         OdbcConnection connection;
 
-        public SqlServerOdbcFilmDataGateway()
+        public SqlServerOdbcFilmDataGateway() 
         {
             connection = new OdbcConnection(ConfigurationManager
                 .ConnectionStrings["DefaultConnectionToSQLExpress"]
@@ -133,5 +133,4 @@ namespace Films.Data.SqlServerOdbc
         }
     }
 
-}
 }
