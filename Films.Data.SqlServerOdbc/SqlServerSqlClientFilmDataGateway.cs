@@ -29,31 +29,31 @@ namespace Films.Data.SqlServerSqlClient
         {
             int producerId = 0;
             int filmId = 0;
-            OdbcCommand producer = new OdbcCommand();
+            SqlCommand producer = new SqlCommand();
 
             producer.CommandText = $"insert into Producers(Name, Surname)]values ({film.Producer.Name},{film.Producer.Surname})";
 
             producer.CommandText = $"Select Producers.id for Producers where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
 
-            using (OdbcDataReader readProducerId = producer.ExecuteReader())
+            using (SqlDataReader readProducerId = producer.ExecuteReader())
             {
                 string stringProducerId = readProducerId["id"].ToString();
                 producerId = int.Parse(stringProducerId);
             }
 
-            OdbcCommand addFilm = new OdbcCommand();
+            SqlCommand addFilm = new SqlCommand();
             addFilm.CommandText = $"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values({film.Name},{film.Language},{film.ReleaseDate},{producerId})";
 
             addFilm.CommandText = $"select Films.id from Film Where Films.Name={film.Name} and Films.ProducerId={producerId} and Films.ReleaseDate ={film.ReleaseDate}";
 
-            using (OdbcDataReader readFilmId = addFilm.ExecuteReader())
+            using (SqlDataReader readFilmId = addFilm.ExecuteReader())
             {
                 string stringFilmId = readFilmId["id"].ToString();
 
                 filmId = int.Parse(stringFilmId);
             }
 
-            OdbcCommand addActors = new OdbcCommand();
+            SqlCommand addActors = new SqlCommand();
 
             foreach (Actor actor in film.Actors)
             {
