@@ -10,10 +10,15 @@ namespace Films.Data.SqlServerOdbc
 {
     public class SqlServerOdbcFilmDataGateway : DisposableObject, IFilmDataGateway
     {
-        private readonly OdbcConnection connection = new OdbcConnection("Driver={Sql Server};Server=(local);Database=FilmLibrary;Trusted_Connection=True");
+        SqlConnection connection;
 
         public SqlServerOdbcFilmDataGateway()
         {
+            connection = new SqlConnection(ConfigurationManager
+                .ConnectionStrings["DefaultConnectionToSQLExpress"]
+                .ConnectionString
+                );
+
             connection.Open();
         }
 
@@ -21,15 +26,11 @@ namespace Films.Data.SqlServerOdbc
         {
             int producerId = 0;
             int filmId = 0;
-
             OdbcCommand producer = new OdbcCommand();
 
-            producer.CommandText = $"insert into Producers(Name, Surname)]values " +
-                $"({film.Producer.Name},{film.Producer.Surname})";
+            producer.CommandText = $"insert into Producers(Name, Surname)]values ({film.Producer.Name},{film.Producer.Surname})";
 
-            producer.CommandText = $"Select Producers.id" +
-                $" for Producers " +
-                $"where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
+            producer.CommandText = $"Select Producers.id for Producers where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
 
             using (OdbcDataReader readProducerId = producer.ExecuteReader())
             {
@@ -38,11 +39,9 @@ namespace Films.Data.SqlServerOdbc
             }
 
             OdbcCommand addFilm = new OdbcCommand();
-            addFilm.CommandText = $"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values" +
-                $"({film.Name},{film.Language},{film.ReleaseDate},{producerId})";
+            addFilm.CommandText = $"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values({film.Name},{film.Language},{film.ReleaseDate},{producerId})";
 
-            addFilm.CommandText = $"select Films.id from Film Where Films.Name={film.Name} " +
-                $"and Films.ProducerId={producerId} and Films.ReleaseDate ={film.ReleaseDate}";
+            addFilm.CommandText = $"select Films.id from Film Where Films.Name={film.Name} and Films.ProducerId={producerId} and Films.ReleaseDate ={film.ReleaseDate}";
 
             using (OdbcDataReader readFilmId = addFilm.ExecuteReader())
             {
@@ -55,23 +54,21 @@ namespace Films.Data.SqlServerOdbc
 
             foreach (Actor actor in film.Actors)
             {
-                addActors.CommandText = "insert into Actors (Name, Surname, idFilm)values" +
-              $"({actor.Name}, {actor.Surname}, {filmId})";
+                addActors.CommandText = "insert into Actors (Name, Surname, idFilm)values({actor.Name}, {actor.Surname}, {filmId})";
             }
 
             return true;
         }
 
-
         public IEnumerable<Film> GetFilms()
         {
             ICollection<Film> films = new List<Film>();
             ICollection<int> idFilms = new List<int>();
-            OdbcCommand getFils = new OdbcCommand();
+            SqlCommand getFils = new SqlCommand();
             getFils.CommandText = "Select id from Films";
             getFils.Connection = connection;
 
-            using (OdbcDataReader dataReader = getFils.ExecuteReader())
+            using (SqlDataReader dataReader = getFils.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
@@ -89,76 +86,50 @@ namespace Films.Data.SqlServerOdbc
 
         private Film CreateFilm(int filmId)
         {
-            Film film = null;
-            OdbcCommand command = new OdbcCommand();
-            command.CommandText = $"select  Name, Language, ReleaseDate from Films" +
-                $"inner join Actors on Actors.idFilm = Films.id " +
-                $"where Films.Id ={filmId}";
+            ICollection<Actor> actors = new List<Actor>();
+            FilmDto filmDto = new FilmDto();
+            SqlCommand command = new SqlCommand();
 
-
-
+            command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer, Actors.Name as actorName, Actors.Surname as actorSurname from Films inner join Actors on Actors.idFilm =Films.id where Actors.idFilm ={filmId}";
             command.Connection = connection;
 
-            using (OdbcDataReader dataRead = command.ExecuteReader())
+            using (SqlDataReader dataReader = command.ExecuteReader())
             {
-                //    film = new Film(
-                //        filmId
-                //        , dataRead["Name"].ToString()
-                //        , dataRead["Language"].ToString()
-                //        , GetProducer(filmId)
-                //        , DateTime.Parse(dataRead["ReleaseDate"].ToString())
-                //        , GetActors(filmId)
-                //        );
+                while (dataReader.Read())
+                {
+                    if (filmDto.Name == null)
+                    {
+                        filmDto.Name = (string)dataReader["name"];
+                        filmDto.ReleaseDate = (DateTime)dataReader["releaseDate"];
+                        filmDto.Language = (string)dataReader["language"];
+                        filmDto.ProducerId = (int)dataReader["idProducer"];
+                    }
+
+                    Actor actor = new Actor((string)dataReader["actorName"], (string)dataReader["actorSurname"]);
+                    actors.Add(actor);
+                }
             }
 
-            return film;
+            command.CommandText = $"select name, surname from Producers where id={filmDto.ProducerId}";
+            command.Connection = connection;
+            Producer producer = null;
+
+            using (SqlDataReader dataReader = command.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    producer = new Producer((string)dataReader["name"], (string)dataReader["surname"]);
+                }
+            }
+
+            return new Film(filmId, filmDto.Name, filmDto.Language, producer, filmDto.ReleaseDate, actors);
         }
-
-
-        //private IEnumerable<Actor> GetActors(int filmId)
-        //{
-        //    ICollection<Actor> actors = new List<Actor>();
-
-        //    OdbcCommand command = new OdbcCommand();
-        //    command.CommandText = $"select Name, Surname from Actors where Actor.idFilm ={filmId}";
-        //    command.Connection = connection;
-
-        //    using (OdbcDataReader dataReader = command.ExecuteReader())
-        //    {
-        //        while (dataReader.Read())
-        //        {
-        //            actors.Add(new Actor(dataReader["Name"].ToString(), dataReader["Surname"].ToString()));
-        //        }
-        //    }
-        //    return actors;
-        //}
-
-        //private Producer GetProducer(int filmId)
-        //{
-        //    int idProducer;
-        //    OdbcCommand command = new OdbcCommand();
-        //    Producer producer;
-        //    command.CommandText = $"select id from Producers Where Film.id{filmId}";
-        //    command.Connection = connection;
-
-        //    using (OdbcDataReader dataReader = command.ExecuteReader())
-        //    {
-        //        idProducer = int.Parse(dataReader["id"].ToString());
-        //    }
-
-        //    command.CommandText = $"select Name, Surname from Producers where Prducers.id={idProducer}";
-
-        //    using (OdbcDataReader dataReader = command.ExecuteReader())
-        //    {
-        //        producer = new Producer(dataReader["Name"].ToString(), dataReader["Surname"].ToString());
-        //    }
-
-        //    return producer;
-        //}
 
         protected override void Dispose(bool disposing)
         {
             connection.Close();
         }
     }
+
+}
 }
