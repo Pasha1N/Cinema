@@ -132,5 +132,4 @@ namespace Films.Data.SqlServerOdbc
             connection.Close();
         }
     }
-
 }
