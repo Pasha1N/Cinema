@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Odbc;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Films.Data.SqlServerOdbc
 {
@@ -14,12 +11,12 @@ namespace Films.Data.SqlServerOdbc
     {
         OdbcConnection connection;
 
-        public SqlServerOdbcFilmDataGateway() 
+        public SqlServerOdbcFilmDataGateway()
         {
             connection = new OdbcConnection(ConfigurationManager
                 .ConnectionStrings["DefaultConnectionToSQLExpress"]
                 .ConnectionString
-                );
+               );
 
             connection.Open();
         }
@@ -31,7 +28,6 @@ namespace Films.Data.SqlServerOdbc
             OdbcCommand producer = new OdbcCommand();
 
             producer.CommandText = $"insert into Producers(Name, Surname)]values ({film.Producer.Name},{film.Producer.Surname})";
-
             producer.CommandText = $"Select Producers.id for Producers where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
 
             using (OdbcDataReader readProducerId = producer.ExecuteReader())
@@ -42,13 +38,11 @@ namespace Films.Data.SqlServerOdbc
 
             OdbcCommand addFilm = new OdbcCommand();
             addFilm.CommandText = $"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values({film.Name},{film.Language},{film.ReleaseDate},{producerId})";
-
             addFilm.CommandText = $"select Films.id from Film Where Films.Name={film.Name} and Films.ProducerId={producerId} and Films.ReleaseDate ={film.ReleaseDate}";
 
             using (OdbcDataReader readFilmId = addFilm.ExecuteReader())
             {
                 string stringFilmId = readFilmId["id"].ToString();
-
                 filmId = int.Parse(stringFilmId);
             }
 
@@ -60,30 +54,6 @@ namespace Films.Data.SqlServerOdbc
             }
 
             return true;
-        }
-
-        public IEnumerable<Film> GetFilms()
-        {
-            ICollection<Film> films = new List<Film>();
-            ICollection<int> idFilms = new List<int>();
-            OdbcCommand getFils = new OdbcCommand();
-            getFils.CommandText = "Select id from Films";
-            getFils.Connection = connection;
-
-            using (OdbcDataReader dataReader = getFils.ExecuteReader())
-            {
-                while (dataReader.Read())
-                {
-                    idFilms.Add(int.Parse(dataReader["id"].ToString()));
-                }
-            }
-
-            foreach (int id in idFilms)
-            {
-                films.Add(CreateFilm(id));
-            }
-
-            return films;
         }
 
         private Film CreateFilm(int filmId)
@@ -102,7 +72,7 @@ namespace Films.Data.SqlServerOdbc
                     if (filmDto.Name == null)
                     {
                         filmDto.Name = (string)dataReader["name"];
-                        filmDto.ReleaseDate = (DateTime)dataReader["releaseDate"];
+                        filmDto.ReleaseDate = DateTime.Parse((string)dataReader["releaseDate"]);
                         filmDto.Language = (string)dataReader["language"];
                         filmDto.ProducerId = (int)dataReader["idProducer"];
                     }
@@ -129,7 +99,31 @@ namespace Films.Data.SqlServerOdbc
 
         protected override void Dispose(bool disposing)
         {
-            connection.Close();
+            //  connection.Close();
+        }
+
+        public IEnumerable<Film> GetFilms()
+        {
+            ICollection<Film> films = new List<Film>();
+            ICollection<int> idFilms = new List<int>();
+            OdbcCommand getFils = new OdbcCommand();
+            getFils.CommandText = "Select id from Films";
+            getFils.Connection = connection;
+
+            using (OdbcDataReader dataReader = getFils.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    idFilms.Add(int.Parse(dataReader["id"].ToString()));
+                }
+            }
+
+            foreach (int id in idFilms)
+            {
+                films.Add(CreateFilm(id));
+            }
+
+            return films;
         }
     }
 }
