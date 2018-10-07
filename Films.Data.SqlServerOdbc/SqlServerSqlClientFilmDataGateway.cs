@@ -1,10 +1,6 @@
 ﻿using Films.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Odbc;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Films.Data.SqlServerOdbc.Dto;
 using System.Configuration;
@@ -32,7 +28,6 @@ namespace Films.Data.SqlServerSqlClient
             SqlCommand producer = new SqlCommand();
 
             producer.CommandText = $"insert into Producers(Name, Surname)]values ({film.Producer.Name},{film.Producer.Surname})";
-
             producer.CommandText = $"Select Producers.id for Producers where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
 
             using (SqlDataReader readProducerId = producer.ExecuteReader())
@@ -43,13 +38,11 @@ namespace Films.Data.SqlServerSqlClient
 
             SqlCommand addFilm = new SqlCommand();
             addFilm.CommandText = $"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values({film.Name},{film.Language},{film.ReleaseDate},{producerId})";
-
             addFilm.CommandText = $"select Films.id from Film Where Films.Name={film.Name} and Films.ProducerId={producerId} and Films.ReleaseDate ={film.ReleaseDate}";
 
             using (SqlDataReader readFilmId = addFilm.ExecuteReader())
             {
                 string stringFilmId = readFilmId["id"].ToString();
-
                 filmId = int.Parse(stringFilmId);
             }
 
@@ -61,30 +54,6 @@ namespace Films.Data.SqlServerSqlClient
             }
 
             return true;
-        }
-
-        public IEnumerable<Film> GetFilms()
-        {
-            ICollection<Film> films = new List<Film>();
-            ICollection<int> idFilms = new List<int>();
-            SqlCommand getFils = new SqlCommand();
-            getFils.CommandText = "Select id from Films";
-            getFils.Connection = connection;
-
-            using (SqlDataReader dataReader = getFils.ExecuteReader())
-            {
-                while (dataReader.Read())
-                {
-                    idFilms.Add(int.Parse(dataReader["id"].ToString()));
-                }
-            }
-
-            foreach (int id in idFilms)
-            {
-                films.Add(CreateFilm(id));
-            }
-
-            return films;
         }
 
         private Film CreateFilm(int filmId)
@@ -131,6 +100,30 @@ namespace Films.Data.SqlServerSqlClient
         protected override void Dispose(bool disposing)
         {
             connection.Close();
+        }
+
+        public IEnumerable<Film> GetFilms()
+        {
+            ICollection<Film> films = new List<Film>();
+            ICollection<int> idFilms = new List<int>();
+            SqlCommand getFils = new SqlCommand();
+            getFils.CommandText = "Select id from Films";
+            getFils.Connection = connection;
+
+            using (SqlDataReader dataReader = getFils.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    idFilms.Add(int.Parse(dataReader["id"].ToString()));
+                }
+            }
+
+            foreach (int id in idFilms)
+            {
+                films.Add(CreateFilm(id));
+            }
+
+            return films;
         }
     }
 }
