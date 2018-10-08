@@ -27,8 +27,11 @@ namespace Films.Data.SqlServerOdbc
             int filmId = 0;
             OdbcCommand producer = new OdbcCommand();
 
-            producer.CommandText = $"insert into Producers(Name, Surname)]values ({film.Producer.Name},{film.Producer.Surname})";
-            producer.CommandText = $"Select Producers.id for Producers where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
+           // producer.CommandText = $"insert into Producers(Name, Surname)]values ({film.Producer.Name},{film.Producer.Surname})";
+         //   producer.CommandText = $"Select Producers.id from Producers where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
+            producer.CommandText = $"Select id from Producers where Name =Альберт and Surname = Хьюз";
+
+            producer.Connection = connection;
 
             using (OdbcDataReader readProducerId = producer.ExecuteReader())
             {
@@ -99,7 +102,7 @@ namespace Films.Data.SqlServerOdbc
 
         protected override void Dispose(bool disposing)
         {
-            //  connection.Close();
+            connection.Close();
         }
 
         public IEnumerable<Film> GetFilms()

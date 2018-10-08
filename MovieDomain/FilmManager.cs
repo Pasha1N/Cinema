@@ -25,7 +25,7 @@ namespace Films.Domain
                 filmDataGateway.AddFilm(film);
             }
 
-            if(added)
+            if (added)
             {
                 OnFilmAdded(new FilmEventArgs(film));
             }
@@ -33,9 +33,10 @@ namespace Films.Domain
 
         public IEnumerable<Film> GetFilms()
         {
-            IFilmDataGateway dataGeteway = filmDataService.OpenDataGateway();
-
-            return dataGeteway.GetFilms();
+            using (IFilmDataGateway dataGeteway = filmDataService.OpenDataGateway())
+            {
+                return dataGeteway.GetFilms();
+            }
         }
 
         private void OnFilmAdded(FilmEventArgs e)
