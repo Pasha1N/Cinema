@@ -101,13 +101,14 @@ namespace Films.Data.Xml.xDocument
             DateTime releaseDate = DateTime.Parse(film.Attribute("ReleaseDate").Value);
             Producer producer = FindProducerById(int.Parse(film.Attribute("Producer").Value));
             int id = int.Parse(film.Attribute("id").Value);
+            bool bluRaySupport = (bool)film.Attribute("BluRaySupport");
 
             foreach (XElement isActor in actorsIsElementsActors)
             {
                 actors.Add(FindActorById(int.Parse(isActor.Value)));
             }
 
-            return new Film(id, name, language, producer, releaseDate, actors);
+            return new Film(id, bluRaySupport, name, language, producer, releaseDate, actors);
         }
 
         protected override void Dispose(bool disposing)

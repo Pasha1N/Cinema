@@ -15,7 +15,7 @@ namespace Cinema.Presentation.Wpf
             var container = new StandardKernel();
             container.Bind(
                 configurator => configurator
-                    .From("Films.Data", "Films.Data.SqlServerOdbc", "Films.Domain")
+                    .From("Films.Data", "Films.Data.Xml.xDocument", "Films.Domain")
                     .SelectAllClasses()
                     .BindAllInterfaces()
                     .ConfigureFor<FilmManager>(config => config.InSingletonScope())

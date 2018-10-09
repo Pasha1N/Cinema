@@ -13,6 +13,7 @@ namespace Cinema.Presentation.Wpf.ViewModel
         ICollection<Actor> actors = new ObservableCollection<Actor>();
         private string actorName = string.Empty;
         private string actorSurname = string.Empty;
+        private bool bluRaySupport = false;
         private bool canAddActor = true;
         private bool canCreateFilm = true;
         private Command commandAddActor;
@@ -43,6 +44,12 @@ namespace Cinema.Presentation.Wpf.ViewModel
         {
             get => actorSurname;
             set => SetProperty(ref actorSurname, value);
+        }
+
+        public bool BluRaySupport
+        {
+            get => bluRaySupport;
+            set => bluRaySupport = value;
         }
 
         public bool CanAddActor
@@ -113,6 +120,7 @@ namespace Cinema.Presentation.Wpf.ViewModel
             int id = 0;
             film = new Film(
                 id
+                ,bluRaySupport
                 , name
                 , language
                 , CreateProducer(producerName, producerSurname)

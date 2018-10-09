@@ -3,18 +3,18 @@ using Films.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.Odbc;
+using System.Data.SqlClient;
 
 namespace Films.Data.SqlServerOdbc
 {
     public class SqlServerOdbcFilmDataGateway : DisposableObject, IFilmDataGateway
     {
-        OdbcConnection connection;
+        SqlConnection connection;
 
         public SqlServerOdbcFilmDataGateway()
         {
-            connection = new OdbcConnection(ConfigurationManager
-                .ConnectionStrings["DefaultConnectionToSQLServer"]
+            connection = new SqlConnection(ConfigurationManager
+                .ConnectionStrings["DefaultConnectionToSQLExpress"]
                 .ConnectionString
                );
 
@@ -25,13 +25,13 @@ namespace Films.Data.SqlServerOdbc
         {
             int producerId = 0;
             int filmId = 0;
-            OdbcCommand producer = new OdbcCommand();
+            SqlCommand producer = new SqlCommand();
             producer.Connection = connection;
             producer.CommandText = $"insert into Producers(Name, Surname)values ('{film.Producer.Name}','{film.Producer.Surname}')";
             producer.ExecuteNonQuery();
             producer.CommandText = $"Select Producers.id from Producers where Producers.Name ='{film.Producer.Name}'and Producers.Surname = '{film.Producer.Surname}'";
 
-            using (OdbcDataReader readProducerId = producer.ExecuteReader())
+            using (SqlDataReader readProducerId = producer.ExecuteReader())
             {
                 while (readProducerId.Read())
                 {
@@ -40,13 +40,14 @@ namespace Films.Data.SqlServerOdbc
                 }
             }
 
-            OdbcCommand addFilm = new OdbcCommand();
+            SqlCommand addFilm = new SqlCommand();
             addFilm.Connection = connection;
-            addFilm.CommandText = $"Insert into Films (Name, Language, ReleaseDate,idProducer)Values('{film.Name}','{film.Language}','{film.ReleaseDate.ToString()}',{producerId})";
+            int bluRaySupport = film.BluRaySupport ? 1 : 0;
+            addFilm.CommandText = $"Insert into Films (Name, Language, ReleaseDate, BluRaySupport, idProducer)Values('{film.Name}', '{film.Language}', '{film.ReleaseDate.ToString()}', {bluRaySupport}, {producerId})";
             addFilm.ExecuteNonQuery();
             addFilm.CommandText = $"select Films.id from Films Where Films.Name='{film.Name}' and Films.idProducer={producerId} and Films.ReleaseDate ='{film.ReleaseDate}'";
 
-            using (OdbcDataReader readFilmId = addFilm.ExecuteReader())
+            using (SqlDataReader readFilmId = addFilm.ExecuteReader())
             {
                 while (readFilmId.Read())
                 {
@@ -55,7 +56,7 @@ namespace Films.Data.SqlServerOdbc
                 }
             }
 
-            OdbcCommand addActors = new OdbcCommand();
+            SqlCommand addActors = new SqlCommand();
             addActors.Connection = connection;
 
             foreach (Actor actor in film.Actors)
@@ -70,27 +71,28 @@ namespace Films.Data.SqlServerOdbc
         {
             ICollection<Actor> actors = new List<Actor>();
             FilmDto filmDto = new FilmDto();
-            OdbcCommand command = new OdbcCommand();
+            SqlCommand command = new SqlCommand();
             command.Connection = connection;
 
-            command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer from Films where id ={filmId}";
+            command.CommandText = $"select Films.name, Films.BluRaySupport, Films.ReleaseDate, Films.[Language], films.idProducer from Films where id ={filmId}";
 
-            using (OdbcDataReader dataReader = command.ExecuteReader())
+            using (SqlDataReader dataReader = command.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
                     filmDto.Name = (string)dataReader["name"];
-                    filmDto.ReleaseDate = DateTime.Parse((string)dataReader["releaseDate"]);
+                    filmDto.BluRaySupport = (bool)dataReader["BluRaySupport"];
+                    filmDto.ReleaseDate = DateTime.Parse(dataReader["releaseDate"].ToString());
                     filmDto.Language = (string)dataReader["language"];
                     filmDto.ProducerId = (int)dataReader["idProducer"];
                 }
             }
 
-            OdbcCommand getActors = new OdbcCommand();
+            SqlCommand getActors = new SqlCommand();
             getActors.Connection = connection;
             getActors.CommandText = "select name, surname, idFilm from actors";
 
-            using (OdbcDataReader dataReader = getActors.ExecuteReader())
+            using (SqlDataReader dataReader = getActors.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
@@ -106,7 +108,7 @@ namespace Films.Data.SqlServerOdbc
             command.Connection = connection;
             Producer producer = null;
 
-            using (OdbcDataReader dataReader = command.ExecuteReader())
+            using (SqlDataReader dataReader = command.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
@@ -114,7 +116,7 @@ namespace Films.Data.SqlServerOdbc
                 }
             }
 
-            return new Film(filmId, filmDto.Name, filmDto.Language, producer, filmDto.ReleaseDate, actors);
+            return new Film(filmId, filmDto.BluRaySupport, filmDto.Name, filmDto.Language, producer, filmDto.ReleaseDate, actors);
         }
 
         protected override void Dispose(bool disposing)
@@ -126,11 +128,11 @@ namespace Films.Data.SqlServerOdbc
         {
             ICollection<Film> films = new List<Film>();
             ICollection<int> idFilms = new List<int>();
-            OdbcCommand getFils = new OdbcCommand();
+            SqlCommand getFils = new SqlCommand();
             getFils.CommandText = "Select id from Films";
             getFils.Connection = connection;
 
-            using (OdbcDataReader dataReader = getFils.ExecuteReader())
+            using (SqlDataReader dataReader = getFils.ExecuteReader())
             {
                 while (dataReader.Read())
                 {

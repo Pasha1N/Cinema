@@ -16,6 +16,7 @@ namespace Cinema.Presentation.Wpf.ViewModel
         }
 
         public IEnumerable<Actor> Actors => film.Actors;
+        public string BluRaySupport => film.BluRaySupport == true ? "Yes" : "No";
         public int Id => film.Id;
         public string Language => film.Language;
         public string Name => film.Name;
