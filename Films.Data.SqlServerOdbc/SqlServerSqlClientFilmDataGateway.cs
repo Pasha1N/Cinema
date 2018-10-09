@@ -14,7 +14,7 @@ namespace Films.Data.SqlServerSqlClient
         public SqlServerSqlClientFilmDataGateway()
         {
             connection = new SqlConnection(ConfigurationManager
-                .ConnectionStrings["DefaultConnectionToSQLExpress"]
+                .ConnectionStrings["DefaultConnectionToSQLServer"]
                 .ConnectionString
                 );
 
@@ -26,33 +26,43 @@ namespace Films.Data.SqlServerSqlClient
             int producerId = 0;
             int filmId = 0;
             SqlCommand producer = new SqlCommand();
-
-            producer.CommandText = $"insert into Producers(Name, Surname)]values ({film.Producer.Name},{film.Producer.Surname})";
-            producer.CommandText = $"Select Producers.id for Producers where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
+            producer.Connection = connection;
+            producer.CommandText = $"insert into Producers(Name, Surname)values ('{film.Producer.Name}','{film.Producer.Surname}')";
+            producer.ExecuteNonQuery();
+            producer.CommandText = $"Select Producers.id from Producers where Producers.Name ='{film.Producer.Name}'and Producers.Surname = '{film.Producer.Surname}'";
 
             using (SqlDataReader readProducerId = producer.ExecuteReader())
             {
-                string stringProducerId = readProducerId["id"].ToString();
-                producerId = int.Parse(stringProducerId);
+                while (readProducerId.Read())
+                {
+                    string stringProducerId = readProducerId["id"].ToString();
+                    producerId = int.Parse(stringProducerId);
+                }
             }
 
             SqlCommand addFilm = new SqlCommand();
-            addFilm.CommandText = $"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values({film.Name},{film.Language},{film.ReleaseDate},{producerId})";
-            addFilm.CommandText = $"select Films.id from Film Where Films.Name={film.Name} and Films.ProducerId={producerId} and Films.ReleaseDate ={film.ReleaseDate}";
+            addFilm.Connection = connection;
+            addFilm.CommandText = $"Insert into Films (Name, Language, ReleaseDate,idProducer)Values('{film.Name}','{film.Language}','{film.ReleaseDate.ToString()}',{producerId})";
+            addFilm.ExecuteNonQuery();
+            addFilm.CommandText = $"select Films.id from Films Where Films.Name='{film.Name}' and Films.idProducer={producerId} and Films.ReleaseDate ='{film.ReleaseDate}'";
 
             using (SqlDataReader readFilmId = addFilm.ExecuteReader())
             {
-                string stringFilmId = readFilmId["id"].ToString();
-                filmId = int.Parse(stringFilmId);
+                while (readFilmId.Read())
+                {
+                    string stringFilmId = readFilmId["id"].ToString();
+                    filmId = int.Parse(stringFilmId);
+                }
             }
 
             SqlCommand addActors = new SqlCommand();
+            addActors.Connection = connection;
 
             foreach (Actor actor in film.Actors)
             {
-                addActors.CommandText = "insert into Actors (Name, Surname, idFilm)values({actor.Name}, {actor.Surname}, {filmId})";
+                addActors.CommandText = $"insert into Actors (Name, Surname, idFilm)values('{actor.Name}', '{actor.Surname}', {filmId})";
+                addActors.ExecuteNonQuery();
             }
-
             return true;
         }
 
@@ -61,24 +71,34 @@ namespace Films.Data.SqlServerSqlClient
             ICollection<Actor> actors = new List<Actor>();
             FilmDto filmDto = new FilmDto();
             SqlCommand command = new SqlCommand();
-
-            command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer, Actors.Name as actorName, Actors.Surname as actorSurname from Films inner join Actors on Actors.idFilm =Films.id where Actors.idFilm ={filmId}";
             command.Connection = connection;
+
+            command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer from Films where id ={filmId}";
 
             using (SqlDataReader dataReader = command.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
-                    if (filmDto.Name == null)
-                    {
-                        filmDto.Name = (string)dataReader["name"];
-                        filmDto.ReleaseDate = (DateTime)dataReader["releaseDate"];
-                        filmDto.Language = (string)dataReader["language"];
-                        filmDto.ProducerId = (int)dataReader["idProducer"];
-                    }
+                    filmDto.Name = (string)dataReader["name"];
+                    filmDto.ReleaseDate = DateTime.Parse(dataReader["releaseDate"].ToString());
+                    filmDto.Language = (string)dataReader["language"];
+                    filmDto.ProducerId = (int)dataReader["idProducer"];
+                }
+            }
 
-                    Actor actor = new Actor((string)dataReader["actorName"], (string)dataReader["actorSurname"]);
-                    actors.Add(actor);
+            SqlCommand getActors = new SqlCommand();
+            getActors.Connection = connection;
+            getActors.CommandText = "select name, surname, idFilm from actors";
+
+            using (SqlDataReader dataReader = getActors.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    if (filmId == (int)dataReader["idFilm"])
+                    {
+                        Actor actor = new Actor((string)dataReader["Name"], (string)dataReader["Surname"]);
+                        actors.Add(actor);
+                    }
                 }
             }
 
