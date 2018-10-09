@@ -14,7 +14,7 @@ namespace Films.Data.SqlServerOdbc
         public SqlServerOdbcFilmDataGateway()
         {
             connection = new OdbcConnection(ConfigurationManager
-                .ConnectionStrings["DefaultConnectionToSQLExpress"]
+                .ConnectionStrings["DefaultConnectionToSQLServer"]
                 .ConnectionString
                );
 
@@ -26,10 +26,10 @@ namespace Films.Data.SqlServerOdbc
             int producerId = 0;
             int filmId = 0;
             OdbcCommand producer = new OdbcCommand();
-
-            producer.CommandText = $"insert into Producers(Name, Surname)]values ('{film.Producer.Name}','{film.Producer.Surname}')";
-            producer.CommandText = $"Select Producers.id from Producers where Producers.Name ='{film.Producer.Name}' and Producers.Surname = '{film.Producer.Surname}'";
             producer.Connection = connection;
+            producer.CommandText = $"insert into Producers(Name, Surname)values ('{film.Producer.Name}','{film.Producer.Surname}')";
+            producer.ExecuteNonQuery();
+            producer.CommandText = $"Select Producers.id from Producers where Producers.Name ='{film.Producer.Name}'and Producers.Surname = '{film.Producer.Surname}'";
 
             using (OdbcDataReader readProducerId = producer.ExecuteReader())
             {
@@ -41,9 +41,10 @@ namespace Films.Data.SqlServerOdbc
             }
 
             OdbcCommand addFilm = new OdbcCommand();
-            addFilm.CommandText = $"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values('{film.Name}','{film.Language}','{film.ReleaseDate}',{producerId})";
-            addFilm.CommandText = $"select Films.id from Films Where Films.Name='{film.Name}' and Films.ProducerId={producerId} and Films.ReleaseDate ='{film.ReleaseDate}'";
             addFilm.Connection = connection;
+            addFilm.CommandText = $"Insert into Films (Name, Language, ReleaseDate,idProducer)Values('{film.Name}','{film.Language}','{film.ReleaseDate.ToString()}',{producerId})";
+            addFilm.ExecuteNonQuery();
+            addFilm.CommandText = $"select Films.id from Films Where Films.Name='{film.Name}' and Films.idProducer={producerId} and Films.ReleaseDate ='{film.ReleaseDate}'";
 
             using (OdbcDataReader readFilmId = addFilm.ExecuteReader())
             {
@@ -55,12 +56,13 @@ namespace Films.Data.SqlServerOdbc
             }
 
             OdbcCommand addActors = new OdbcCommand();
+            addActors.Connection = connection;
 
             foreach (Actor actor in film.Actors)
             {
                 addActors.CommandText = $"insert into Actors (Name, Surname, idFilm)values('{actor.Name}', '{actor.Surname}', {filmId})";
+                addActors.ExecuteNonQuery();
             }
-
             return true;
         }
 
@@ -69,24 +71,34 @@ namespace Films.Data.SqlServerOdbc
             ICollection<Actor> actors = new List<Actor>();
             FilmDto filmDto = new FilmDto();
             OdbcCommand command = new OdbcCommand();
-
-            command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer, Actors.Name as actorName, Actors.Surname as actorSurname from Films inner join Actors on Actors.idFilm =Films.id where Actors.idFilm ={filmId}";
             command.Connection = connection;
+
+            command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer from Films where id ={filmId}";
 
             using (OdbcDataReader dataReader = command.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
-                    if (filmDto.Name == null)
-                    {
-                        filmDto.Name = (string)dataReader["name"];
-                        filmDto.ReleaseDate = DateTime.Parse((string)dataReader["releaseDate"]);
-                        filmDto.Language = (string)dataReader["language"];
-                        filmDto.ProducerId = (int)dataReader["idProducer"];
-                    }
+                    filmDto.Name = (string)dataReader["name"];
+                    filmDto.ReleaseDate = DateTime.Parse((string)dataReader["releaseDate"]);
+                    filmDto.Language = (string)dataReader["language"];
+                    filmDto.ProducerId = (int)dataReader["idProducer"];
+                }
+            }
 
-                    Actor actor = new Actor((string)dataReader["actorName"], (string)dataReader["actorSurname"]);
-                    actors.Add(actor);
+            OdbcCommand getActors = new OdbcCommand();
+            getActors.Connection = connection;
+            getActors.CommandText = "select name, surname, idFilm from actors";
+
+            using (OdbcDataReader dataReader = getActors.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    if (filmId == (int)dataReader["idFilm"])
+                    {
+                        Actor actor = new Actor((string)dataReader["Name"], (string)dataReader["Surname"]);
+                        actors.Add(actor);
+                    }
                 }
             }
 
@@ -135,3 +147,24 @@ namespace Films.Data.SqlServerOdbc
         }
     }
 }
+
+
+//command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer, Actors.Name as actorName, Actors.Surname as actorSurname from Films inner join Actors on Actors.idFilm =Films.id where Actors.idFilm ={filmId}";
+//command.Connection = connection;
+
+//using (OdbcDataReader dataReader = command.ExecuteReader())
+//{
+//    while (dataReader.Read())
+//    {
+//        if (filmDto.Name == null)
+//        {
+//            filmDto.Name = (string)dataReader["name"];
+//            filmDto.ReleaseDate = DateTime.Parse((string)dataReader["releaseDate"]);
+//            filmDto.Language = (string)dataReader["language"];
+//            filmDto.ProducerId = (int)dataReader["idProducer"];
+//        }
+
+//        Actor actor = new Actor((string)dataReader["actorName"], (string)dataReader["actorSurname"]);
+//        actors.Add(actor);
+//    }
+//}
