@@ -14,7 +14,7 @@ namespace Films.Data.SqlServerSqlClient
         public SqlServerSqlClientFilmDataGateway()
         {
             connection = new SqlConnection(ConfigurationManager
-                .ConnectionStrings["DefaultConnectionToSQLServer"]
+                .ConnectionStrings["DefaultConnectionToSQLExpress"]
                 .ConnectionString
                 );
 
