@@ -25,7 +25,7 @@ namespace Films.Domain
                 filmDataGateway.AddFilm(film);
             }
 
-            if(added)
+            if (added)
             {
                 OnFilmAdded(new FilmEventArgs(film));
             }
