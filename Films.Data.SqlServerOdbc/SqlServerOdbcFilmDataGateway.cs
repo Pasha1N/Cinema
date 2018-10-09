@@ -1,19 +1,23 @@
-﻿using Films.Domain.Models;
+﻿using Films.Data.SqlServerOdbc.Dto;
+using Films.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Odbc;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Films.Data.SqlServerOdbc
 {
     public class SqlServerOdbcFilmDataGateway : DisposableObject, IFilmDataGateway
     {
-        private readonly OdbcConnection connection = new OdbcConnection("Driver={Sql Server};Server=(local);Database=FilmLibrary;Trusted_Connection=True");
+        OdbcConnection connection;
 
         public SqlServerOdbcFilmDataGateway()
         {
+            connection = new OdbcConnection(ConfigurationManager
+                .ConnectionStrings["DefaultConnectionToSQLServer"]
+                .ConnectionString
+               );
+
             connection.Open();
         }
 
@@ -21,128 +25,146 @@ namespace Films.Data.SqlServerOdbc
         {
             int producerId = 0;
             int filmId = 0;
-
             OdbcCommand producer = new OdbcCommand();
-
-            producer.CommandText = $"insert into Producers(Name, Surname)]values " +
-                $"({film.Producer.Name},{film.Producer.Surname})";
-
-            producer.CommandText = $"Select Producers.id" +
-                $" for Producers " +
-                $"where Producers.Name ={film.Producer.Name} and Producers.Surname = {film.Producer.Surname}";
+            producer.Connection = connection;
+            producer.CommandText = $"insert into Producers(Name, Surname)values ('{film.Producer.Name}','{film.Producer.Surname}')";
+            producer.ExecuteNonQuery();
+            producer.CommandText = $"Select Producers.id from Producers where Producers.Name ='{film.Producer.Name}'and Producers.Surname = '{film.Producer.Surname}'";
 
             using (OdbcDataReader readProducerId = producer.ExecuteReader())
             {
-                string stringProducerId = readProducerId["id"].ToString();
-                producerId = int.Parse(stringProducerId);
+                while (readProducerId.Read())
+                {
+                    string stringProducerId = readProducerId["id"].ToString();
+                    producerId = int.Parse(stringProducerId);
+                }
             }
 
             OdbcCommand addFilm = new OdbcCommand();
-            addFilm.CommandText = $"Insert into FilmLibrary (Name, Language, ReleaseDate,ProducerId)Values" +
-                $"({film.Name},{film.Language},{film.ReleaseDate},{producerId})";
-
-            addFilm.CommandText = $"select Films.id from Film Where Films.Name={film.Name} " +
-                $"and Films.ProducerId={producerId} and Films.ReleaseDate ={film.ReleaseDate}";
+            addFilm.Connection = connection;
+            addFilm.CommandText = $"Insert into Films (Name, Language, ReleaseDate,idProducer)Values('{film.Name}','{film.Language}','{film.ReleaseDate.ToString()}',{producerId})";
+            addFilm.ExecuteNonQuery();
+            addFilm.CommandText = $"select Films.id from Films Where Films.Name='{film.Name}' and Films.idProducer={producerId} and Films.ReleaseDate ='{film.ReleaseDate}'";
 
             using (OdbcDataReader readFilmId = addFilm.ExecuteReader())
             {
-                string stringFilmId = readFilmId["id"].ToString();
-
-                filmId = int.Parse(stringFilmId);
+                while (readFilmId.Read())
+                {
+                    string stringFilmId = readFilmId["id"].ToString();
+                    filmId = int.Parse(stringFilmId);
+                }
             }
 
             OdbcCommand addActors = new OdbcCommand();
+            addActors.Connection = connection;
 
             foreach (Actor actor in film.Actors)
             {
-                addActors.CommandText = "insert into Actors (Name, Surname, idFilm)values" +
-              $"({actor.Name}, {actor.Surname}, {filmId})";
+                addActors.CommandText = $"insert into Actors (Name, Surname, idFilm)values('{actor.Name}', '{actor.Surname}', {filmId})";
+                addActors.ExecuteNonQuery();
             }
-
             return true;
-        }
-
-        public IEnumerable<Film> GetFilms()
-        {
-            ICollection<Film> films = new List<Film>();
-            OdbcCommand getFils = new OdbcCommand();
-            getFils.CommandText = "Select id from Films";
-
-            using (OdbcDataReader dataReader = getFils.ExecuteReader())
-            {
-                while (dataReader.Read())
-                {
-                    Film film = CreateFilm(int.Parse(dataReader["id"].ToString()));
-                    films.Add(film);
-                }
-            }
-            return films;
         }
 
         private Film CreateFilm(int filmId)
         {
-            Film film;
-            OdbcCommand command = new OdbcCommand();
-            command.CommandText = $"select  Name, Language, ReleaseDate from Films where Films.Id ={filmId}";
-
-            using (OdbcDataReader dataRead = command.ExecuteReader())
-            {
-                film = new Film(
-                    filmId
-                    , dataRead["Name"].ToString()
-                    , dataRead["Language"].ToString()
-                    , GetProducer(filmId)
-                    , DateTime.Parse(dataRead["ReleaseDate"].ToString())
-                    , GetActors(filmId)
-                    );
-            }
-
-            return film;
-        }
-
-
-        private IEnumerable<Actor> GetActors(int filmId)
-        {
             ICollection<Actor> actors = new List<Actor>();
-
+            FilmDto filmDto = new FilmDto();
             OdbcCommand command = new OdbcCommand();
-            command.CommandText = $"select Name, Surname from Actors where Actor.idFilm ={filmId}";
+            command.Connection = connection;
+
+            command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer from Films where id ={filmId}";
 
             using (OdbcDataReader dataReader = command.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
-                    actors.Add(new Actor(dataReader["Name"].ToString(), dataReader["Surname"].ToString()));
+                    filmDto.Name = (string)dataReader["name"];
+                    filmDto.ReleaseDate = DateTime.Parse((string)dataReader["releaseDate"]);
+                    filmDto.Language = (string)dataReader["language"];
+                    filmDto.ProducerId = (int)dataReader["idProducer"];
                 }
             }
-            return actors;
-        }
 
-        private Producer GetProducer(int filmId)
-        {
-            int idProducer;
-            OdbcCommand command = new OdbcCommand();
-            Producer producer;
-            command.CommandText = $"select id from Producers Where Film.id{filmId}";
+            OdbcCommand getActors = new OdbcCommand();
+            getActors.Connection = connection;
+            getActors.CommandText = "select name, surname, idFilm from actors";
+
+            using (OdbcDataReader dataReader = getActors.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    if (filmId == (int)dataReader["idFilm"])
+                    {
+                        Actor actor = new Actor((string)dataReader["Name"], (string)dataReader["Surname"]);
+                        actors.Add(actor);
+                    }
+                }
+            }
+
+            command.CommandText = $"select name, surname from Producers where id={filmDto.ProducerId}";
+            command.Connection = connection;
+            Producer producer = null;
 
             using (OdbcDataReader dataReader = command.ExecuteReader())
             {
-                idProducer = int.Parse(dataReader["id"].ToString());
+                while (dataReader.Read())
+                {
+                    producer = new Producer((string)dataReader["name"], (string)dataReader["surname"]);
+                }
             }
 
-            command.CommandText = $"select Name, Surname from Producers where Prducers.id={idProducer}";
-
-            using (OdbcDataReader dataReader = command.ExecuteReader())
-            {
-                producer = new Producer(dataReader["Name"].ToString(), dataReader["Surname"].ToString());
-            }
-
-            return producer;
+            return new Film(filmId, filmDto.Name, filmDto.Language, producer, filmDto.ReleaseDate, actors);
         }
 
         protected override void Dispose(bool disposing)
         {
             connection.Close();
         }
+
+        public IEnumerable<Film> GetFilms()
+        {
+            ICollection<Film> films = new List<Film>();
+            ICollection<int> idFilms = new List<int>();
+            OdbcCommand getFils = new OdbcCommand();
+            getFils.CommandText = "Select id from Films";
+            getFils.Connection = connection;
+
+            using (OdbcDataReader dataReader = getFils.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    idFilms.Add(int.Parse(dataReader["id"].ToString()));
+                }
+            }
+
+            foreach (int id in idFilms)
+            {
+                films.Add(CreateFilm(id));
+            }
+
+            return films;
+        }
     }
 }
+
+
+//command.CommandText = $"select Films.name, Films.ReleaseDate, Films.[Language], films.idProducer, Actors.Name as actorName, Actors.Surname as actorSurname from Films inner join Actors on Actors.idFilm =Films.id where Actors.idFilm ={filmId}";
+//command.Connection = connection;
+
+//using (OdbcDataReader dataReader = command.ExecuteReader())
+//{
+//    while (dataReader.Read())
+//    {
+//        if (filmDto.Name == null)
+//        {
+//            filmDto.Name = (string)dataReader["name"];
+//            filmDto.ReleaseDate = DateTime.Parse((string)dataReader["releaseDate"]);
+//            filmDto.Language = (string)dataReader["language"];
+//            filmDto.ProducerId = (int)dataReader["idProducer"];
+//        }
+
+//        Actor actor = new Actor((string)dataReader["actorName"], (string)dataReader["actorSurname"]);
+//        actors.Add(actor);
+//    }
+//}
