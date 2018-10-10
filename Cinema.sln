@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films", "Films\Films.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films.Data.SqlServerOdbc", "Films.Data.SqlServerOdbc\Films.Data.SqlServerOdbc.csproj", "{D8A55211-584E-471B-9A24-E36DBA673DA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Film.Data.EntityFramework", "EntityFramework\Film.Data.EntityFramework.csproj", "{EDA0A3EB-D978-4F1E-8FF8-46F06F72DFC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{D8A55211-584E-471B-9A24-E36DBA673DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8A55211-584E-471B-9A24-E36DBA673DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8A55211-584E-471B-9A24-E36DBA673DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA0A3EB-D978-4F1E-8FF8-46F06F72DFC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA0A3EB-D978-4F1E-8FF8-46F06F72DFC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA0A3EB-D978-4F1E-8FF8-46F06F72DFC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA0A3EB-D978-4F1E-8FF8-46F06F72DFC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{D12CF00A-FFC8-486B-B029-0C977C5B2573} = {65306FA3-D6BD-4173-81C3-8BBA61E20A1B}
 		{E357D83E-F182-4D0B-A979-328930E3A004} = {8D599118-1421-494E-BBEF-A2338C591626}
 		{D8A55211-584E-471B-9A24-E36DBA673DA1} = {65306FA3-D6BD-4173-81C3-8BBA61E20A1B}
+		{EDA0A3EB-D978-4F1E-8FF8-46F06F72DFC5} = {65306FA3-D6BD-4173-81C3-8BBA61E20A1B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9D11FCD7-B17B-450E-B6B7-2959BDF0E570}
