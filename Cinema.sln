@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films", "Films\Films.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films.Data.SqlServerOdbc", "Films.Data.SqlServerOdbc\Films.Data.SqlServerOdbc.csproj", "{D8A55211-584E-471B-9A24-E36DBA673DA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Film.Data.EntityFramework", "EntityFramework\Film.Data.EntityFramework.csproj", "{EDA0A3EB-D978-4F1E-8FF8-46F06F72DFC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films.Data.EntityFramework", "EntityFramework\Films.Data.EntityFramework.csproj", "{EDA0A3EB-D978-4F1E-8FF8-46F06F72DFC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

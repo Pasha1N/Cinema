@@ -114,6 +114,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EntityFramework\Films.Data.EntityFramework.csproj">
+      <Project>{eda0a3eb-d978-4f1e-8ff8-46f06f72dfc5}</Project>
+      <Name>Films.Data.EntityFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Film.Data.Xml.XDocument\Films.Data.Xml.xDocument.csproj">
       <Project>{d12cf00a-ffc8-486b-b029-0c977c5b2573}</Project>
       <Name>Films.Data.Xml.xDocument</Name>

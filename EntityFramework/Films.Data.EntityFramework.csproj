@@ -7,8 +7,8 @@
     <ProjectGuid>{EDA0A3EB-D978-4F1E-8FF8-46F06F72DFC5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Film.Data.EntityFramework</RootNamespace>
-    <AssemblyName>Film.Data.EntityFramework</AssemblyName>
+    <RootNamespace>Films.Data.EntityFramework</RootNamespace>
+    <AssemblyName>Films.Data.EntityFramework</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,12 +48,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerEntityFrameworkFilmDataGateway.cs" />
+    <Compile Include="SqlServerEntityFrameworcFilmDataService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Film.Data\Films.Data.csproj">
+      <Project>{fece3c0e-d7e4-463a-987d-3a8f2b4ab25e}</Project>
+      <Name>Films.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Films\Films.csproj">
+      <Project>{e357d83e-f182-4d0b-a979-328930e3a004}</Project>
+      <Name>Films</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movie.Domain.Models\Films.Domain.Models.csproj">
+      <Project>{b3c7ad68-d0db-4424-9aa7-355b067d687b}</Project>
+      <Name>Films.Domain.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
