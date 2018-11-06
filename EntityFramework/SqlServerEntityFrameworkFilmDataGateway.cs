@@ -8,16 +8,21 @@ namespace Films.Data.EntityFramework
 {
     public class SqlServerEntityFrameworkFilmDataGateway: DisposableObject, IFilmDataGateway
     {
-        IDbConnection connection;
-
-        public SqlServerEntityFrameworkFilmDataGateway()
+        public SqlServerEntityFrameworkFilmDataGateway() 
         {
-          
         }
 
         public bool AddFilm(Film film)
         {
-            return true;
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                context.Film =
+            }
+
+
+
+
+                return true;
         }
 
         public IEnumerable<Film> GetFilms()

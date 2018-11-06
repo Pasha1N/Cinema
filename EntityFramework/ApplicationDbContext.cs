@@ -10,12 +10,10 @@ namespace Films.Data.EntityFramework
 {
     public class ApplicationDbContext: DbContext
     {
-        public ApplicationDbContext(): base("name=StringConnectionEntityFramework1")
+        public ApplicationDbContext(): base("name=StringConnectionEntityFrameworkSqlExperss")
         {
         }
 
-      public  DbSet<Film> film { get;set; }
-
-
+      public  DbSet<Film> Film { get;set; }
     }
 }
