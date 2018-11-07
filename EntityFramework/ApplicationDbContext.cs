@@ -1,4 +1,4 @@
-﻿using Films.Domain.Models;
+﻿using Films.Data.EntityFramework.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,10 +10,10 @@ namespace Films.Data.EntityFramework
 {
     public class ApplicationDbContext: DbContext
     {
-        public ApplicationDbContext(): base("name=StringConnectionEntityFrameworkSqlExperss")
+        public ApplicationDbContext(): base("name=StringConnectionEntityFrameworkSqlServer")
         {
         }
 
-      public  DbSet<Film> Film { get;set; }
+      public  DbSet<Film> Films { get;set; }
     }
 }

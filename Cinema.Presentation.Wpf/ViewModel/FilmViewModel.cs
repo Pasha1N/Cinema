@@ -21,6 +21,6 @@ namespace Cinema.Presentation.Wpf.ViewModel
         public string Language => film.Language;
         public string Name => film.Name;
         public Producer Producer => film.Producer;
-        public string ReleaseDate => film.ReleaseDate.ToShortDateString();
+        public string ReleaseDate => film.ReleaseDate.ToString();
     }
 }

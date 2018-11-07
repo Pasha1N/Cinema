@@ -1,4 +1,5 @@
-﻿using Films.Domain.Models;
+﻿using Films.Data.EntityFramework.Converters;
+using Films.Domain.Models;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -16,23 +17,20 @@ namespace Films.Data.EntityFramework
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                context.Film =
+                context.Films.Add(ConvertFilmDomainToFilmDataEntityFramework.ConvertFilm(film));
+                context.SaveChanges();
             }
-
-
-
-
                 return true;
         }
 
         public IEnumerable<Film> GetFilms()
         {
 
-            using (ApplicationDbContext dbContext = new ApplicationDbContext())
-            {
+            //using (ApplicationDbContext dbContext = new ApplicationDbContext())
+            //{
 
 
-            }
+            //}
 
 
 
