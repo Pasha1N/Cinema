@@ -15,15 +15,17 @@ namespace Cinema.Presentation.Wpf.ViewModel
         private string actorSurname = string.Empty;
         private bool bluRaySupport = false;
         private bool canAddActor = true;
-        private bool canCreateFilm = true;
+        private bool canCreateFilm = false;
         private Command commandAddActor;
         private Command commandCreateFilm;
         private Film film;
+        private bool toolTipIsEnable = false;
+        private string toolTipMessage;
         private string language = string.Empty;
         private string name = string.Empty;
         private string producerName = string.Empty;
         private string producerSurname = string.Empty;
-        private DateTime releaseDate = new DateTime();
+        private string releaseDate = string.Empty;
         private FilmViewModel selectedFilm;
 
         public ViewModelMakingFilm()
@@ -91,16 +93,50 @@ namespace Cinema.Presentation.Wpf.ViewModel
             set => SetProperty(ref producerSurname, value);
         }
 
-        public DateTime ReleaseDate
+        public string ReleaseDate
         {
             get => releaseDate;
-            set => SetProperty(ref releaseDate, value);
+
+
+            set
+             {
+                if(releaseDate!=value)
+                {
+                    //DateTime date = new DateTime(1895, 1, 1);
+
+                    //if(releaseDate>=date)
+                    //{
+                    //    ToolTipIsEnable = false;
+                    //    CanCreateFilm = true;
+                    //}
+                    //else
+                    //{
+                    //    ToolTipIsEnable = true;
+                    //    CanCreateFilm = false;
+                    //}
+                  //  string date = value.ToShortDateString();
+                   // releaseDate = DateTime.Parse(date);
+                    OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(ReleaseDate)));
+                }
+            }
         }
 
         public FilmViewModel SelectedFilm
         {
             get => selectedFilm;
             set => SetProperty(ref selectedFilm, value);
+        }
+
+        public bool ToolTipIsEnable
+        {
+            get => toolTipIsEnable;
+            set => SetProperty(ref toolTipIsEnable, value);
+        }
+
+        public string ToolTippMessage
+        {
+            get => toolTipMessage;
+            set => SetProperty(ref toolTipMessage, value);
         }
 
         public event EventHandler<EventArgs> ClickingButtonCreateFilm;
@@ -124,7 +160,7 @@ namespace Cinema.Presentation.Wpf.ViewModel
                 , name
                 , language
                 , CreateProducer(producerName, producerSurname)
-                , releaseDate, actors);
+                , DateTime.Parse(releaseDate), actors);
 
             CanCreateFilm = false;
             OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(CanCreateFilm)));

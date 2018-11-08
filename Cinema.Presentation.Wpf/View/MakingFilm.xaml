@@ -36,7 +36,17 @@
                    HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"/>
 
         <TextBox Grid.Column="2" Grid.Row="1" Background="#FF115B5B" 
-                 BorderBrush="#FF034949" VerticalAlignment="Center" Text="{Binding Path=ReleaseDate}" Margin="0,7,0,7"/>
+                 BorderBrush="#FF034949" VerticalAlignment="Center"
+                 Text="{Binding Path=ReleaseDate, UpdateSourceTrigger=PropertyChanged}" 
+                 Margin="0,7,0,7" ToolTipService.ShowDuration="5000">
+            
+            <TextBox.ToolTip>
+                <ToolTip IsEnabled="false" DataContext="sdfgfdg">
+                    <!--<TextBlock Text="Date should start from  ( 1895/1/1 )"/>-->
+                </ToolTip>
+            </TextBox.ToolTip>
+            
+        </TextBox>
 
         <TextBlock Text="Supports blu-ray  " Grid.ColumnSpan="2" Grid.Row="2" FontSize="14" HorizontalAlignment="Right"/>
 
