@@ -1,12 +1,4 @@
-﻿using Films.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-namespace Films.Data.EntityFramework
+﻿namespace Films.Data.EntityFramework
 {
     public class SqlServerEntityFrameworcFilmDataService : IFilmDataService
     {
@@ -15,4 +7,4 @@ namespace Films.Data.EntityFramework
             return new SqlServerEntityFrameworkFilmDataGateway();
         }
     }
-}  
+}

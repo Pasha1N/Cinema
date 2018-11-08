@@ -5,7 +5,6 @@
         public static EntityFramework.Models.Producer ToEntityFrameworkModelsProducer(Films.Domain.Models.Producer producerDomain)
         {
             EntityFramework.Models.Producer producer = new Models.Producer();
-
             producer.Name = producerDomain.Name;
             producer.Surname = producerDomain.Surname;
 

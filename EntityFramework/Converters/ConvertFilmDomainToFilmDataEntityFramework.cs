@@ -23,7 +23,6 @@ namespace Films.Data.EntityFramework.Converters
             }
 
             film.Actors = actors;
-
             return film;
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-namespace Films.Data.EntityFramework.Models
+﻿namespace Films.Data.EntityFramework.Models
 {
     public class Producer
     {
