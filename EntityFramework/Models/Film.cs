@@ -5,7 +5,7 @@ namespace Films.Data.EntityFramework.Models
 {
     public class Film
     {
-        public IEnumerable<Actor> Actors { get; set; }
+        public ICollection<Actor> Actors { get; set; }
 
         public bool BluRaySupport { get; set; }
 

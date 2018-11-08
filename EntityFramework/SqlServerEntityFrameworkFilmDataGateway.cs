@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.Entity;
+using System.Linq;
 
 namespace Films.Data.EntityFramework
 {
@@ -22,16 +24,16 @@ namespace Films.Data.EntityFramework
         public IEnumerable<Film> GetFilms()
         {
             ICollection<Film> films = new List<Film>();
-            ICollection<Models.Film> films1 = new List<Models.Film>();
+
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                // foreach(Models.Film film in context.Films)
-                //  {
-                //    films.Add(ConvertFilm.ToModelsFilm(film));
-                // }
-                films1 = context.Films;
-            }
+                IEnumerable<Models.Film> films1 = context.Films.Include(film=>film.Actors).ToList();
 
+                foreach (Models.Film film in films1)
+                {
+                    films.Add(ConvertFilm.ToModelsFilm(film));
+                }
+            }
             return films;
         }
 

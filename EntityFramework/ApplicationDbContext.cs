@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace Films.Data.EntityFramework
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(): base("name=StringConnectionEntityFrameworkSqlExperss")
+        public ApplicationDbContext() : base("name=StringConnectionEntityFrameworkSqlServer")
         {
         }
 
-      public  DbSet<Film> Films { get;set; }
+        public DbSet<Film> Films { get; set; }
+
+        public DbSet<Actor> Actors { get; set; }
     }
 }
