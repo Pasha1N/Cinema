@@ -21,18 +21,16 @@ namespace Cinema.Presentation.Wpf.ViewModel
         private Command commandCreateFilm;
         private Film film;
         private bool toolTipIsEnable = false;
-      //  private string toolTipMessage = "Date should start from ( 1895/1/1 )";
         private string language = string.Empty;
         private string name = string.Empty;
         private string producerName = string.Empty;
         private string producerSurname = string.Empty;
-        //   private DateTime releaseDate = new DateTime(DatePicker.DisplayDateStartProperty(DateTime.Parse("05.10.2000")));
         DatePicker releaseDate = new DatePicker();
         private FilmViewModel selectedFilm;
 
         public ViewModelMakingFilm()
         {;
-            ReleaseDate.DisplayDateStart = DateTime.Parse("05.10.2000");
+         
             commandCreateFilm = new DelegateCommand(AssembleTheFilm, EnableFilmCreationButton);
             commandAddActor = new DelegateCommand(AddActor, EnableAddActorButton);
         }
@@ -99,27 +97,10 @@ namespace Cinema.Presentation.Wpf.ViewModel
         public DatePicker ReleaseDate
         {
             get => releaseDate;
-
-
             set
              {
                 if(releaseDate!=value)
                 {
-                    //DateTime date = new DateTime(1895, 1, 1);
-
-                    //if(releaseDate>=date)
-                    //{
-                    //    ToolTipIsEnable = false;
-                    //    CanCreateFilm = true;
-                    //}
-                    //else
-                    //{
-                    //    ToolTipIsEnable = true;
-                    //    CanCreateFilm = false;
-                    //}
-                    //  string date = value.ToShortDateString();
-                    // releaseDate = DateTime.Parse(date);
-
                     ToolTipIsEnable = true;
                     OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(ReleaseDate)));
                 }
@@ -140,12 +121,6 @@ namespace Cinema.Presentation.Wpf.ViewModel
             }
             set => SetProperty(ref toolTipIsEnable, value);
         }
-
-       // public string ToolTipMessage
-        //{
-          //  get => toolTipMessage;
-           // set => SetProperty(ref toolTipMessage, value);
-        //}
 
         public event EventHandler<EventArgs> ClickingButtonCreateFilm;
 
@@ -195,37 +170,5 @@ namespace Cinema.Presentation.Wpf.ViewModel
         {
             return CanCreateFilm;
         }
-
-        //public string ToolTipMessage
-        //{
-        //    get => toolTipMessage;
-        //    set => SetProperty(ref toolTipMessage, value);
-        //}
-
-        //public void UpdateFilmCreationStatus(int lengthTheString, int minimumStringLength, string errorMessage)
-        //{
-        //    if (lengthTheString < minimumStringLength)
-        //    {
-        //        CanCreateFilm = false;
-        //        ToolTipMessage = errorMessage;
-        //    }
-        //    else
-        //    {
-        //        CanCreateFilm = true;
-        //    }
-        //}
-
-        //public void UpdateStatusAddingActor(int lengthTheString, int minimumStringLength, string errorMessage)
-        //{
-        //    if (lengthTheString < minimumStringLength)
-        //    {
-        //        CanAddActor = false;
-        //        ToolTipMessage = errorMessage;
-        //    }
-        //    else
-        //    {
-        //        CanAddActor = true;
-        //    }
-        //}
     }
 }

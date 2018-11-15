@@ -6,7 +6,7 @@ namespace Films.Data.EntityFramework
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext()
-            : base("name=StringConnectionEntityFrameworkSqlExperss")
+            : base("name=StringConnectionEntityFrameworkSqlServer")
         {
         }
 
